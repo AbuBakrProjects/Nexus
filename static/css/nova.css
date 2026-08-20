@@ -1,0 +1,36 @@
+#novaMessageBox {
+position: fixed;
+right: 28px;
+bottom: 70px;
+width: 300px;
+padding: 12px 14px;
+background: rgba(8, 12, 9, 0.96);
+border-left: 2px solid #7cff7c;
+box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+z-index: 99999;
+font-family: "VT323", monospace;
+color: #d8ded8;
+opacity: 0;
+transform: translateY(12px);
+transition: opacity 0.35s ease, transform 0.35s ease;
+pointer-events: none;
+}
+
+#novaMessageBox.nova-show {
+opacity: 1;
+transform: translateY(0);
+}
+
+#novaName {
+color: #b6ff72;
+font-family: "Press Start 2P", monospace;
+font-size: 8px;
+margin-bottom: 8px;
+}
+
+#novaText {
+color: #d8ded8;
+font-size: 19px;
+line-height: 1.15;
+white-space: pre-line;
+}

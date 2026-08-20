@@ -1,0 +1,72 @@
+#desktop {
+    background:
+        linear-gradient(
+            rgba(4, 10, 5, 0.45),
+            rgba(4, 10, 5, 0.45)
+        ),
+        url("/static/assets/wallpapers/nexus-bg.png");
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.desktop-icons {
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    gap: 24px;
+    padding: 38px;
+}
+
+.desktop-icon {
+    position: relative;
+    width: 120px;
+    text-align: center;
+}
+
+.desktop-icon button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 8px;
+    padding: 0;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #baffba;
+    font-size: 42px;
+}
+
+.desktop-icon button:hover {
+    border-color: #405240;
+    background: rgba(120, 255, 120, 0.06);
+}
+
+.desktop-icon p {
+    margin: 0;
+    color: #c7c7c7;
+    font-size: 19px;
+    letter-spacing: 1px;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: #b6ff72;
+    color: #101010;
+    font-family: "Press Start 2P", monospace;
+    font-size: 8px;
+}
+
+.hidden {
+    display: none;
+}

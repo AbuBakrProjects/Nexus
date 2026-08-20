@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS NODE 01</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/panel.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/desktop.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/terminal.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/messages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nova.css') }}">
+</head>
+
+<body>
+
+<div id="introScreen" class="intro-screen">
+<div id="introText" class="intro-text"></div>
+</div>
+
+<div id="bootScreen" class="boot-screen">
+<div id="bootText" class="boot-text"></div>
+</div>
+
+<div id="panel" class="panel-container"></div>
+
+<div id="desktop" class="desktop-container"></div>
+
+<div id="notificationContainer" class="notification-container"></div>
+
+<audio id="notificationSound" preload="auto">
+<source src="{{ url_for('static', filename='audio/notification.wav') }}" type="audio/wav">
+</audio>
+
+<script src="{{ url_for('static', filename='js/window.js') }}"></script>
+<script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/desktop.js') }}"></script>
+<script src="{{ url_for('static', filename='js/boot.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nova.js') }}"></script>
+
+</body>
+</html>
