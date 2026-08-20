@@ -79,7 +79,8 @@ Messages from unknown users gradually reveal more of the story as the player pro
 ## NOVA
 
 <p align="center">
-  <img src="docs/images/nova.png" alt="NOVA" width="700">
+  <img src="docs/images/nova-1.png" width="48%">
+  <img src="docs/images/nova-2.png" width="48%">
 </p>
 
 NOVA acts as a friendly guide, helping players understand what they are discovering without simply giving them the answers.
