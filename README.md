@@ -1,122 +1,159 @@
 # NEXUS
 
-> A cybersecurity learning game disguised as an operating system.
+> ### A cybersecurity learning game disguised as an OS.
 
-Nexus is a gamified cybersecurity learning platform where players explore a simulated computer, investigate suspicious activity, use a terminal, solve security challenges, and learn real cybersecurity concepts through gameplay.
+<p align="center">
+  <img src="docs/images/nexus-desktop.png" alt="Nexus OS" width="900">
+</p>
 
-Instead of watching a tutorial and being told what to do, Nexus puts you inside the system and lets you investigate it yourself.
+<p align="center">
+  <strong>Explore. Investigate. Learn.</strong>
+</p>
+
+<p align="center">
+  A browser-based cybersecurity learning experience built around exploration, investigation, and hands-on challenges.
+</p>
 
 ---
 
 ## 🎮 What is Nexus?
 
-You wake up inside **NEXUS NODE 01**.
+Nexus is a gamified cybersecurity learning platform. Players navigate around a simulated computer, investigate suspicious activity, use a terminal, solve security challenges, and learn real cybersecurity principles via gameplay.
 
-The machine was shut down.
-
-Something brought it back online.
-
-The system doesn't tell you what happened.
-
-You have to find out.
-
-Explore the filesystem, inspect logs, investigate network activity, read messages, and follow the clues left behind by whoever was here before you.
-
-And be careful.
-
-Not everything on the system is what it appears to be.
+Nexus throws you into the system and lets you figure it out on your own, rather than watching a tutorial and being told what to do.
 
 ---
 
-## 📸 Showcase
+## 🖥️ The Story
 
-### Nexus OS
+You wake up inside **NODE 01**. This is where you are now. You do not know how you got here.
 
-<!-- Add your main Nexus desktop screenshot here -->
+The machine was shut down.. Now it is working again.
 
-![Nexus OS](docs/images/nexus-desktop.png)
+Something brought Nexus online. You do not know what it was.
 
-### Terminal
+Nexus does not tell you what happened. You have to find out what is going on.
 
-<!-- Add terminal screenshot here -->
+You need to look around Nexus. Explore the filesystem. Inspect the logs.
 
-![Nexus Terminal](docs/images/terminal.png)
+Investigate what is happening on the network. Read the messages.
 
-### Messages
+Follow the clues left behind by the people who were using Nexus before you.
 
-<!-- Add messages screenshot here -->
-
-![Nexus Messages](docs/images/messages.png)
-
-### NOVA
-
-<!-- Add NOVA screenshot here -->
-
-![NOVA](docs/images/nova.png)
+You have to be careful. Not everything, on Nexus is what it seems to be.
 
 ---
 
-## 🎥 Gameplay
+# 📸 Showcase
 
-<!-- Replace this with your uploaded gameplay video/GIF -->
+## Nexus OS
 
-[Watch the Nexus gameplay video](YOUR_VIDEO_LINK_HERE)
+<p align="center">
+  <img src="docs/images/nexus-desktop.png" alt="Nexus OS Desktop" width="900">
+</p>
 
-The video shows the current Challenge 01 experience, including:
-
-- Boot sequence
-- UNKNOWN messages
-- Nexus desktop
-- NOVA guidance
-- Terminal investigation
-- Linux-style commands
-- Virtual filesystem
-- Network investigation
-- Challenge progression
+The Nexus desktop acts as the player's main environment.
 
 ---
 
-## 🕵️ Challenge 01
+## Terminal
+
+<p align="center">
+  <img src="docs/images/terminal.png" alt="Nexus Terminal" width="900">
+</p>
+
+A Linux-inspired terminal allows the player to interact with the simulated system and investigate its filesystem.
+
+---
+
+## Messages
+
+<p align="center">
+  <img src="docs/images/messages.png" alt="Nexus Messages" width="700">
+</p>
+
+Messages from unknown users gradually reveal more of the story as the player progresses.
+
+---
+
+## NOVA
+
+<p align="center">
+  <img src="docs/images/nova.png" alt="NOVA" width="700">
+</p>
+
+NOVA acts as a friendly guide, helping players understand what they are discovering without simply giving them the answers.
+
+---
+
+# 🕵️ Challenge 01
 
 The first challenge begins with a simple question:
 
-> **Who is 192.168.1.44?**
+> ## **Who is 192.168.1.44?**
 
 The player isn't immediately given the answer.
 
 Instead, they investigate.
 
-The current flow is:
+### Investigation Flow
 
 ```text
-BOOT
-  ↓
-NEXUS DESKTOP
-  ↓
-UNKNOWN MESSAGE
-  ↓
-OPEN TERMINAL
-  ↓
-EXPLORE THE FILESYSTEM
-  ↓
-ls
-  ↓
-cd /
-  ↓
-ls
-  ↓
-logs
-  ↓
-access.log
-  ↓
-192.168.1.44
-  ↓
-INVESTIGATE
-  ↓
-/etc/network.conf
-  ↓
-192.168.1.24
-  ↓
-COMPARE THE EVIDENCE
-  ↓
-CHALLENGE COMPLETE
+                         ┌───────────────┐
+                         │     BOOT      │
+                         └───────┬───────┘
+                                 │
+                                 ▼
+                     ┌─────────────────────┐
+                     │    NEXUS DESKTOP    │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │   UNKNOWN MESSAGE   │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │   OPEN TERMINAL     │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │ EXPLORE FILESYSTEM  │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                               ls
+                                │
+                                ▼
+                              cd /
+                                │
+                                ▼
+                               ls
+                                │
+                                ▼
+                              logs
+                                │
+                                ▼
+                           access.log
+                                │
+                                ▼
+                        192.168.1.44
+                                │
+                                ▼
+                         INVESTIGATE
+                                │
+                                ▼
+                       /etc/network.conf
+                                │
+                                ▼
+                        192.168.1.24
+                                │
+                                ▼
+                     COMPARE THE EVIDENCE
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │ CHALLENGE COMPLETE  │
+                     └─────────────────────┘
