@@ -1,0 +1,76 @@
+.game-window {
+    position: fixed;
+    top: 110px;
+    left: 50%;
+    z-index: 600;
+    width: min(460px, 92vw);
+    min-height: 500px;
+    transform: translateX(-50%);
+    overflow: hidden;
+    background: #101410;
+    border: 2px solid #465346;
+    box-shadow: 8px 8px 0 #000;
+    display: none;
+}
+.game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    color: #d7ffd7;
+    font-family: "VT323", monospace;
+}
+.game-status {
+    min-height: 28px;
+    margin-bottom: 16px;
+    color: #b6ff72;
+    font-size: 23px;
+    text-align: center;
+}
+.game-result {
+    min-height: 32px;
+    margin: 16px 0 8px;
+    color: #fff;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    text-align: center;
+}
+.game-reset {
+    padding: 9px 18px;
+    border: 1px solid #465346;
+    background: #171b17;
+    color: #b6ff72;
+    font-family: "VT323", monospace;
+    font-size: 21px;
+    cursor: pointer;
+}
+.game-reset:hover {
+    border-color: #8cff8c;
+    background: #202620;
+}
+.buttons-TTT {
+    display: grid;
+    grid-template-columns: repeat(3, 78px);
+    grid-template-rows: repeat(3, 78px);
+    gap: 4px;
+}
+.ttt-box {
+    width: 78px;
+    height: 78px;
+    border: 3px solid #0a980a;
+    color: #aaa;
+    background: #020614;
+    font-family: "VT323", monospace;
+    font-size: 28px;
+    cursor: pointer;
+}
+.ttt-box:hover:not(:disabled) {
+    border-color: #8cff8c;
+}
+.ttt-box:disabled {
+    cursor: default;
+}
+.ttt-box.win {
+    border-color: #b6ff72;
+    color: #b6ff72;
+}

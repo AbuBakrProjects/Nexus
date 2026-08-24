@@ -1,4 +1,7 @@
-<div id="novaMessageBox">
-<div id="novaName">NOVA</div>
-<div id="novaText"></div>
+<div id="novaMessageBox" aria-live="polite">
+    <div id="novaHeader"><div id="novaName">NOVA <span>MENTOR</span></div><button id="novaHistoryButton" type="button">HISTORY</button></div>
+    <div id="novaText"></div>
+    <div id="novaActions"><button id="novaHintButton" type="button">NEED A HINT</button><button id="novaMinimizeButton" type="button">MINIMIZE</button></div>
 </div>
+<button id="novaMinimized" type="button" aria-label="Open last NOVA message"><span>N</span><div><b>NOVA</b><small id="novaMinimizedLabel">LAST MESSAGE</small></div><i id="novaNewHint">NEW HINT</i></button>
+<div id="novaHistoryPanel" class="nova-history-panel" aria-hidden="true"><div class="nova-history-header"><b>NOVA HISTORY</b><button id="novaHistoryClose" type="button">×</button></div><div id="novaHistoryList"></div></div>

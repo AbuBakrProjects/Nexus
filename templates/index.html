@@ -4,44 +4,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NEXUS NODE 01</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/panel.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/desktop.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/apps/terminal.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/apps/messages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/games.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/tictactoe.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/memory.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/files.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/browser.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/logs.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/nova.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apps/system.css') }}">
+<style>.mission-debrief{position:fixed;inset:0;z-index:100001;display:grid;place-items:center;background:rgba(0,0,0,.62)}.mission-debrief.hidden{display:none}.debrief-box{width:min(560px,90vw);padding:30px;background:#101410;border:1px solid #52607a;box-shadow:10px 10px 0 #000;color:#ddd;font-family:"VT323",monospace}.debrief-kicker{color:#758bc2;font:8px "Press Start 2P",monospace}.debrief-box h2{color:#eee;font:15px "Press Start 2P",monospace}.debrief-section{margin:18px 0;padding:13px;border:1px solid #394139;background:#151922}.debrief-section b{display:block;margin-bottom:8px;color:#8fa8ff;font:8px "Press Start 2P",monospace}.debrief-section div{font-size:20px;line-height:1.15}.debrief-box button{padding:9px 15px;border:1px solid #52607a;background:#171b17;color:#8fa8ff;font:8px "Press Start 2P",monospace;cursor:pointer}.global-search{position:fixed;inset:0;z-index:100000;display:grid;place-items:start center;padding-top:14vh;background:rgba(0,0,0,.48)}.global-search.hidden{display:none}.search-box{width:min(680px,90vw);padding:18px;background:#11161b;border:1px solid #52607a;box-shadow:10px 10px 0 #000}.search-label{margin-bottom:10px;color:#8fa8ff;font:10px "Press Start 2P",monospace}.search-label span{float:right;color:#777;font-size:8px}.search-box input{width:100%;padding:13px;border:1px solid #394139;background:#0b0e12;color:#eee;font:22px "VT323",monospace;outline:none}.search-result{display:block;width:100%;padding:12px;margin-top:6px;border:1px solid transparent;background:#151922;color:#bbb;text-align:left;font:19px "VT323",monospace}.search-result:hover{border-color:#52607a;color:#fff}.search-result small{display:block;color:#666}</style>
 </head>
-
 <body>
-
 <div id="introScreen" class="intro-screen">
-<div id="introText" class="intro-text"></div>
+    <div class="skip-hint">SKIP • PRESS Z + 9</div>
+    <div id="introText" class="intro-text"></div>
 </div>
-
 <div id="bootScreen" class="boot-screen">
-<div id="bootText" class="boot-text"></div>
+    <div class="skip-hint">SKIP • PRESS Z + 9</div>
+    <div id="bootText" class="boot-text"></div>
 </div>
-
 <div id="panel" class="panel-container"></div>
-
 <div id="desktop" class="desktop-container"></div>
-
 <div id="notificationContainer" class="notification-container"></div>
-
-<audio id="notificationSound" preload="auto">
-<source src="{{ url_for('static', filename='audio/notification.wav') }}" type="audio/wav">
-</audio>
-
+<div id="missionDebrief" class="mission-debrief hidden"><div class="debrief-box"><div class="debrief-kicker">NEXUS</div><h2>MISSION COMPLETE</h2><div id="debriefDiscovered"></div><div id="debriefLearned"></div><button id="debriefClose">CONTINUE</button></div></div>
+<div id="globalSearch" class="global-search hidden"><div class="search-box"><div class="search-label">NEXUS SEARCH <span>CTRL + K</span></div><input id="globalSearchInput" placeholder="Search NEXUS..." autocomplete="off"><div id="globalSearchResults"></div></div></div>
+<audio id="bootSound" preload="auto"><source src="{{ url_for('static', filename='audio/boot.wav') }}" type="audio/wav"></audio>
+<audio id="clickSound" preload="auto"><source src="{{ url_for('static', filename='audio/click.wav') }}" type="audio/wav"></audio>
+<audio id="notificationSound" preload="auto"><source src="{{ url_for('static', filename='audio/notification.wav') }}" type="audio/wav"></audio>
+<audio id="openSound" preload="auto"><source src="{{ url_for('static', filename='audio/open.wav') }}" type="audio/wav"></audio>
+<audio id="successSound" preload="auto"><source src="{{ url_for('static', filename='audio/success.wav') }}" type="audio/wav"></audio>
+<audio id="errorSound" preload="auto"><source src="{{ url_for('static', filename='audio/error.wav') }}" type="audio/wav"></audio>
+<audio id="keySound" preload="auto"><source src="{{ url_for('static', filename='audio/key.wav') }}" type="audio/wav"></audio>
+<script src="{{ url_for('static', filename='js/sound.js') }}"></script>
 <script src="{{ url_for('static', filename='js/window.js') }}"></script>
-<script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
 <script src="{{ url_for('static', filename='js/desktop.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files.js') }}"></script>
+<script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/games.js') }}"></script>
+<script src="{{ url_for('static', filename='js/system_apps.js') }}"></script>
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tictactoe.js') }}"></script>
+<script src="{{ url_for('static', filename='js/memory.js') }}"></script>
 <script src="{{ url_for('static', filename='js/boot.js') }}"></script>
 <script src="{{ url_for('static', filename='js/nova.js') }}"></script>
-
 </body>
 </html>

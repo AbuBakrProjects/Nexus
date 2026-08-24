@@ -1,0 +1,93 @@
+.games-window {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    z-index: 500;
+    width: min(760px, 92vw);
+    height: min(560px, 78vh);
+    transform: translateX(-50%);
+    overflow: hidden;
+    background: #101410;
+    border: 2px solid #465346;
+    box-shadow: 8px 8px 0 #000;
+}
+.games-titlebar,.ttt-titlebar,.memory-titlebar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 14px;
+    background: #171b17;
+    border-bottom: 2px solid #394139;
+}
+.games-titlebar h1,.ttt-titlebar h1,.memory-titlebar h1 {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+    color: #aaa;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    white-space: nowrap;
+}
+.games-close,.game-close {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 1px solid #777;
+    border-radius: 50%;
+    background: #ff5f57;
+}
+.games-content {
+    height: calc(100% - 42px);
+    padding: 34px;
+    color: #d7ffd7;
+    font-family: "VT323", monospace;
+}
+.games-heading {
+    font-family: "Press Start 2P", monospace;
+    font-size: 14px;
+    color: #b6ff72;
+}
+.games-subtitle {
+    margin: 10px 0 28px;
+    color: #777;
+    font-size: 21px;
+}
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 18px;
+    max-width: 650px;
+}
+.game-card {
+    display: grid;
+    gap: 8px;
+    min-height: 170px;
+    padding: 22px;
+    text-align: left;
+    border: 1px solid #465346;
+    background: #171b17;
+    color: #b6ff72;
+    font-family: "VT323", monospace;
+    cursor: pointer;
+}
+.game-card:hover {
+    background: #202620;
+    border-color: #8cff8c;
+    transform: translate(-2px,-2px);
+}
+.game-icon {
+    font-size: 42px;
+}
+.game-name {
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+}
+.game-desc {
+    color: #888;
+    font-size: 20px;
+}
+
+.game-card { transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease; }
+.game-card:hover { box-shadow: 5px 5px 0 #000; }

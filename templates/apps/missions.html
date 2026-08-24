@@ -1,0 +1,17 @@
+<div id="missionsWindow" class="app-window nexus-system-window">
+    <div class="app-titlebar system-titlebar"><button class="window-close" title="Close"></button><h1>MISSION CENTER</h1></div>
+    <div class="system-content">
+        <aside class="system-sidebar">
+            <button class="system-tab active" data-tab="missions">MISSIONS</button>
+            <button class="system-tab" data-tab="profile">PROFILE</button>
+            <button class="system-tab" data-tab="achievements">ACHIEVEMENTS</button>
+            <button class="system-tab" data-tab="skills">SKILLS</button>
+        </aside>
+        <main class="system-main">
+            <section data-panel="missions"><div class="system-kicker">OPERATIONS</div><h2>Investigate. Learn. Survive.</h2><div class="investigation-trail" id="investigationTrail"></div><div class="mission-card"><b>01 · WHO IS 192.168.1.44?</b><span>COMPLETE THE FIRST TRACE</span></div><div class="mission-card"><b>02 · THE SECOND TRACE</b><span>DISCOVER WHAT .44 WAS EXPOSING</span></div><div class="mission-card"><b>03 · THE WATCHER</b><span>IDENTIFY WHAT WAS MONITORING NEXUS</span></div><p class="system-note">Your next task is unlocked by evidence, not by a menu.</p></section>
+            <section data-panel="profile" class="hidden-panel"><div class="system-kicker">PLAYER</div><h2>NEXUS USER</h2><div class="profile-grid"><div><span>CODENAME</span><b>EXPLORER</b></div><div><span>NODE</span><b>NEXUS-01</b></div><div><span>CLEARANCE</span><b>LEVEL 01</b></div><div><span>SESSION</span><b>ACTIVE</b></div></div></section>
+            <section data-panel="achievements" class="hidden-panel"><div class="system-kicker">ACHIEVEMENTS</div><h2>Evidence earns recognition.</h2><div id="achievementList" class="achievement-list"></div></section>
+            <section data-panel="skills" class="hidden-panel"><div class="system-kicker">SKILL TREE</div><h2>What you're learning</h2><div class="skill"><span>LINUX</span><div><i id="skillLinux"></i></div><b>60%</b></div><div class="skill"><span>NETWORKING</span><div><i id="skillNetwork"></i></div><b>40%</b></div><div class="skill"><span>FORENSICS</span><div><i id="skillForensics"></i></div><b>25%</b></div><div class="skill"><span>WEB SECURITY</span><div><i id="skillWeb"></i></div><b>10%</b></div></section>
+        </main>
+    </div>
+</div>

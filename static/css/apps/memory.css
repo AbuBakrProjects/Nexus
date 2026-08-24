@@ -1,0 +1,25 @@
+.memory-window { width: min(520px, 94vw); min-height: 560px; }
+.memory-board {
+    display: grid;
+    grid-template-columns: repeat(4, 78px);
+    gap: 8px;
+}
+.memory-card {
+    width: 78px;
+    height: 78px;
+    border: 1px solid #465346;
+    background: #171b17;
+    color: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+.memory-card:hover { border-color: #8cff8c; }
+.memory-card.revealed,.memory-card.matched {
+    color: #b6ff72;
+    background: #202620;
+}
+.memory-card.matched { border-color: #75d675; }
+@media (max-width: 560px) {
+    .memory-board { grid-template-columns: repeat(4, 62px); gap: 6px; }
+    .memory-card { width: 62px; height: 62px; }
+}

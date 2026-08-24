@@ -1,0 +1,76 @@
+.files-window,.browser-window {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    z-index: 500;
+    width: min(700px, 90vw);
+    height: min(520px, 78vh);
+    transform: translateX(-50%);
+    overflow: hidden;
+    background: #101410;
+    border: 2px solid #465346;
+    box-shadow: 8px 8px 0 #000;
+}
+.files-titlebar,.browser-titlebar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 14px;
+    background: #171b17;
+    border-bottom: 2px solid #394139;
+}
+.files-titlebar h1,.browser-titlebar h1 {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+    color: #aaa;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+}
+.files-content,.browser-content {
+    height: calc(100% - 42px);
+    padding: 24px;
+    color: #d7ffd7;
+    font-family: "VT323", monospace;
+    font-size: 22px;
+}
+.files-path {
+    padding: 10px;
+    border: 1px solid #303830;
+    background: #0c100c;
+    color: #b6ff72;
+}
+.file-tree {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+}
+.files-hint,.browser-muted {
+    color: #666;
+    font-size: 18px;
+}
+.browser-bar {
+    display: flex;
+    gap: 8px;
+}
+.browser-bar input {
+    flex: 1;
+    border: 1px solid #465346;
+    background: #0c100c;
+    color: #b6ff72;
+    padding: 8px;
+}
+.browser-page {
+    display: grid;
+    place-content: center;
+    height: 80%;
+    text-align: center;
+}
+.browser-logo {
+    color: #b6ff72;
+    font-family: "Press Start 2P", monospace;
+    font-size: 24px;
+}
+.browser-bar button{padding:8px 14px;border:1px solid #52607a;background:#171b17;color:#8fa8ff}.browser-bar button:hover{border-color:#8fa8ff;background:#20252f}.browser-page pre{max-width:650px;white-space:pre-wrap;color:#aaa;font:20px "VT323",monospace;line-height:1.25}

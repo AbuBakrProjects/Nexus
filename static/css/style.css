@@ -11,6 +11,7 @@ body {
 
 body {
     background: #080b08;
+    background-image: radial-gradient(circle at 20% 10%, rgba(116, 255, 116, 0.05), transparent 32%), radial-gradient(circle at 80% 90%, rgba(120, 160, 255, 0.04), transparent 30%);
     color: #d7ffd7;
     font-family: "VT323", monospace;
     overflow: hidden;
@@ -283,3 +284,21 @@ button {
         transform: translateX(0);
     }
 }
+
+
+.skip-hint {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    color: #777;
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: skipPulse 1.8s ease-in-out infinite;
+}
+@keyframes skipPulse {
+    50% { opacity: .45; }
+}
+#introScreen,#bootScreen { position: fixed; }
+#bootScreen { white-space: normal; }
