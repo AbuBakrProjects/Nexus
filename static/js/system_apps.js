@@ -1,11 +1,20 @@
 async function openSystemApp(url, id, initializer) {
     const existing = document.getElementById(id);
-    if (existing) { existing.style.zIndex = "3000"; initializer?.(existing); return existing; }
+    if (existing) {
+        existing.style.zIndex = "3000";
+        initializer?.(existing);
+        return existing;
+    }
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`${url} returned ${response.status}`);
         document.body.insertAdjacentHTML("beforeend", await response.text());
         const windowElement = document.getElementById(id);
+
+        if (!windowElement) {
+            throw new Error(`${id} was not created.`);
+        }
+
         setupWindow(windowElement);
         windowElement.style.zIndex = "3000";
         initializer?.(windowElement);
@@ -14,12 +23,26 @@ async function openSystemApp(url, id, initializer) {
     } catch (error) { console.error(`Failed to open ${url}:`, error); }
 }
 
-async function openMissions() { return openSystemApp("/apps/missions", "missionsWindow", initializeMissions); }
-async function openEvidence() { return openSystemApp("/apps/evidence", "evidenceWindow", updateEvidence); }
-async function openNetwork() { return openSystemApp("/apps/network", "networkWindow", updateSystemApps); }
-async function openSecurity() { return openSystemApp("/apps/security", "securityWindow", updateSystemApps); }
+async function openMissions() {
+    return openSystemApp("/apps/missions", "missionsWindow", initializeMissions);
+}
 
-async function fetchState() { const response = await fetch("/api/state"); return response.ok ? response.json() : {}; }
+async function openEvidence() {
+    return openSystemApp("/apps/evidence", "evidenceWindow", updateEvidence);
+}
+
+async function openNetwork() {
+    return openSystemApp("/apps/network", "networkWindow", updateSystemApps);
+}
+
+async function openSecurity() {
+    return openSystemApp("/apps/security", "securityWindow", updateSystemApps);
+}
+
+async function fetchState() {
+    const response = await fetch("/api/state");
+    return response.ok ? response.json() : {};
+}
 
 async function initializeMissions() {
     const root = document.getElementById("missionsWindow");
@@ -45,10 +68,24 @@ async function initializeMissions() {
         ["watcher_connection_found", "Correlated the connection", "Confirmed the watcher link"]
     ];
     const trailRoot = root.querySelector("#investigationTrail");
-    if (trailRoot) trailRoot.innerHTML = trail.map(([key, label, detail]) => `<div class="trail-item ${state[key] ? "done" : ""}"><b>${state[key] ? "✓" : "○"}</b><span>${state[key] ? label : detail}</span></div>`).join("");
+    if (trailRoot) {
+        trailRoot.innerHTML = trail.map(([key, label, detail]) => `
+            <div class="trail-item ${state[key] ? "done" : ""}">
+                <b>${state[key] ? "✓" : "○"}</b>
+                <span>${state[key] ? label : detail}</span>
+            </div>
+        `).join("");
+    }
     const achievements = { first_contact: "First Contact", who_is_44: "Who Is .44?", network_ghost: "Network Ghost", the_watcher: "The Watcher" };
     const list = root.querySelector("#achievementList");
-    if (list) list.innerHTML = Object.entries(achievements).map(([key, name]) => `<div class="achievement"><b>${state.achievements?.includes(key) ? "✓ " : "○ "}${name}</b><span>${state.achievements?.includes(key) ? "UNLOCKED" : "LOCKED"}</span></div>`).join("");
+    if (list) {
+        list.innerHTML = Object.entries(achievements).map(([key, name]) => `
+            <div class="achievement">
+                <b>${state.achievements?.includes(key) ? "✓ " : "○ "}${name}</b>
+                <span>${state.achievements?.includes(key) ? "UNLOCKED" : "LOCKED"}</span>
+            </div>
+        `).join("");
+    }
 }
 
 async function refreshOpenSystemApps() {
