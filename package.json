@@ -1,0 +1,8 @@
+{
+  "name": "nexus-os",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "node --check static/js/boot.js && node --check static/js/desktop.js && node --check static/js/games.js && node --check static/js/tictactoe.js && node --check static/js/memory.js && node --check static/js/nova.js && node --check static/js/sound.js && node --check static/js/window.js && node --check static/js/terminal.js"
+  }
+}

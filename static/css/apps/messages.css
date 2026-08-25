@@ -1,0 +1,124 @@
+.messages-window {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    z-index: 500;
+    width: min(900px, 90vw);
+    height: min(600px, 78vh);
+    transform: translateX(-50%);
+    overflow: hidden;
+    background: #101410;
+    border: 2px solid #465346;
+    box-shadow: 8px 8px 0 #000;
+}
+
+.messages-titlebar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 14px;
+    background: #171b17;
+    border-bottom: 2px solid #394139;
+}
+
+.messages-titlebar h1 {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+    color: #aaa;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.messages-close {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 1px solid #777;
+    border-radius: 50%;
+    background: #ff5f57;
+}
+
+.messages-content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: calc(100% - 42px);
+}
+
+.message-list {
+    overflow-y: auto;
+    background: #0c100c;
+    border-right: 2px solid #303830;
+}
+
+.message-item {
+    position: relative;
+    padding: 18px;
+    border-bottom: 1px solid #292e29;
+}
+
+.message-item.active {
+    background: #171d17;
+}
+
+.message-sender {
+    margin-bottom: 5px;
+    color: #b8ffb8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+}
+
+.message-preview {
+    max-width: 210px;
+    overflow: hidden;
+    color: #888;
+    font-size: 19px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.message-unread {
+    position: absolute;
+    top: 17px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #b6ff72;
+    color: #111;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+}
+
+.message-view {
+    min-width: 0;
+    padding: 28px;
+    overflow-y: auto;
+}
+
+.message-header {
+    margin-bottom: 5px;
+    color: #baffba;
+    font-family: "Press Start 2P", monospace;
+    font-size: 11px;
+}
+
+.message-time {
+    margin-bottom: 25px;
+    color: #666;
+    font-size: 17px;
+}
+
+.message-body {
+    max-width: 650px;
+    color: #d1d1d1;
+    font-size: 23px;
+    line-height: 1.1;
+    white-space: pre-wrap;
+}

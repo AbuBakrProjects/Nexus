@@ -1,0 +1,133 @@
+.terminal-window {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    width: min(900px, 90vw);
+    height: min(600px, 78vh);
+    transform: translateX(-50%);
+    overflow: hidden;
+    background: #050805;
+    border: 2px solid #465346;
+    box-shadow: 8px 8px 0 #000;
+}
+
+.terminal-titlebar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    min-height: 42px;
+    padding: 0 14px;
+    background: #171b17;
+    border-bottom: 2px solid #394139;
+    cursor: grab;
+}
+
+.terminal-titlebar:active {
+    cursor: grabbing;
+}
+
+.terminal-titlebar h1 {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+    color: #aaa;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.terminal-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-buttons button {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 1px solid #777;
+    border-radius: 50%;
+}
+
+.close-button {
+    background: #ff5f57;
+}
+
+.maximize-button {
+    background: #28c840;
+}
+
+.terminal-body {
+    flex: 1;
+    min-height: 0;
+    padding: 18px 20px;
+    overflow-y: auto;
+    background: #050805;
+    color: #9cff9c;
+    font-family: "VT323", monospace;
+    font-size: 23px;
+    line-height: 1.05;
+    cursor: text;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: #0c100c;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: #384438;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+    background: #526052;
+}
+
+.terminal-line {
+    min-height: 24px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.terminal-system {
+    color: #71c871;
+}
+
+.terminal-prompt {
+    color: #aaffaa;
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    min-height: 27px;
+}
+
+#commandInput {
+    flex: 1;
+    min-width: 0;
+    margin-left: 8px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #9cff9c;
+    caret-color: #9cff9c;
+    font-family: "VT323", monospace;
+    font-size: 23px;
+}
+
+#commandInput::selection {
+    background: #496949;
+    color: white;
+}
