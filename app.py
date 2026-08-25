@@ -69,9 +69,6 @@ def terminal_command():
     result["challenge_complete"] = result.get("challenge_complete", False)
     return jsonify(result)
 
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", debug=False)
-
 @app.route("/api/nova")
 def get_nova():
     return jsonify({"history": game_state["nova_history"], "last_message": game_state["last_nova_message"], "new_hint": game_state["nova_new_hint"], "hint_level": game_state["nova_hint_level"], "hint_stage": game_state["nova_hint_stage"]})
@@ -82,12 +79,25 @@ def record_nova():
     text = str(data.get("text", "")).strip()
     if not text:
         return jsonify({"ok": False}), 400
-    if game_state["last_nova_message"] != text:
-        game_state["nova_history"].append({"text": text, "stage": str(data.get("stage", "")), "time": datetime.now().strftime("%H:%M")})
+    is_new_message = game_state["last_nova_message"] != text
+
+    if is_new_message:
+        game_state["nova_history"].append({
+            "text": text,
+            "stage": str(data.get("stage", "")),
+            "time": datetime.now().strftime("%H:%M")
+        })
         game_state["nova_history"] = game_state["nova_history"][-5:]
+
     game_state["last_nova_message"] = text
+    game_state["nova_new_hint"] = is_new_message
+    return jsonify({"ok": True})
+
+@app.route("/api/nova/read", methods=["POST"])
+def mark_nova_read():
     game_state["nova_new_hint"] = False
     return jsonify({"ok": True})
+
 
 @app.route("/api/nova/hint", methods=["POST"])
 def nova_hint():
@@ -102,3 +112,7 @@ def nova_hint():
     game_state["nova_hint_stage"] = f"challenge{stage}"
     game_state["nova_new_hint"] = False
     return jsonify({"ok": True, "level": level, "text": hints[stage][level]})
+
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000, debug=False)
