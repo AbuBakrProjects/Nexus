@@ -51,6 +51,7 @@ def run_challenge03(command, target):
         complete_challenge(3)
         add_message(MESSAGE)
         add_evidence("watcher_connection", "netstat", "03:17", "NEXUS maintains established connections with 192.168.1.44.")
-        if "the_watcher" not in game_state["achievements"]: game_state["achievements"].append("the_watcher")
+        if "the_watcher" not in game_state["achievements"]:
+            game_state["achievements"].append("the_watcher")
         return {"complete": True, "notification": {"title": "CHALLENGE 03 COMPLETE", "text": "You found the watcher.", "sender": "UNKNOWN", "stage": 4}}
     return {"complete": game_state["challenge03_complete"], "notification": None}

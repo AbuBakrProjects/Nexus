@@ -86,12 +86,20 @@ def execute_command(command, current_dir):
         flags = [arg for arg in args if arg.startswith('-') and arg != '-']
         paths = [arg for arg in args if not arg.startswith('-')]
         if len(paths) > 1:
-            return command_error('ls: multiple paths are not supported in this terminal', current_dir, 'Try one path at a time, for example: ls /logs')
+            return command_error(
+                'ls: multiple paths are not supported in this terminal',
+                current_dir,
+                'Try one path at a time, for example: ls /logs'
+            )
         target = resolve_path(current_dir, paths[0]) if paths else current_dir
         item = fs.get(target)
         if not item:
             shown = paths[0] if paths else target
-            return command_error(f"ls: cannot access '{shown}': No such file or directory", current_dir, 'Check your path with pwd, then try ls or ls /')
+            return command_error(
+                f"ls: cannot access '{shown}': No such file or directory",
+                current_dir,
+                'Check your path with pwd, then try ls or ls /'
+            )
         if item['type'] == 'file':
             return result(target, current_dir)
         children = item.get('children', [])
@@ -107,7 +115,11 @@ def execute_command(command, current_dir):
 
     if cmd == 'cd':
         if len(args) > 1:
-            return command_error('cd: too many arguments', current_dir, 'cd accepts one destination. Use cd .. to move up.')
+            return command_error(
+                'cd: too many arguments',
+                current_dir,
+                'cd accepts one destination. Use cd .. to move up.'
+            )
         target_arg = args[0] if args else '~'
         target = resolve_path(current_dir, target_arg)
         item = fs.get(target)
@@ -119,15 +131,31 @@ def execute_command(command, current_dir):
 
     if cmd == 'cat':
         if not args:
-            return command_error('cat: missing file operand', current_dir, 'cat reads a file. Try cat /logs/access.log')
+            return command_error(
+                'cat: missing file operand',
+                current_dir,
+                'cat reads a file. Try cat /logs/access.log'
+            )
         if len(args) > 1:
-            return command_error('cat: multiple files are not supported in this terminal', current_dir, 'Read one file at a time.')
+            return command_error(
+                'cat: multiple files are not supported in this terminal',
+                current_dir,
+                'Read one file at a time.'
+            )
         target = resolve_path(current_dir, args[0])
         item = fs.get(target)
         if not item:
-            return command_error(f'cat: {args[0]}: No such file or directory', current_dir, 'Use ls to find the exact filename.')
+            return command_error(
+                f'cat: {args[0]}: No such file or directory',
+                current_dir,
+                'Use ls to find the exact filename.'
+            )
         if item['type'] != 'file':
-            return command_error(f'cat: {args[0]}: Is a directory', current_dir, 'Use ls to inspect a directory, then cat one of its files.')
+            return command_error(
+                f'cat: {args[0]}: Is a directory',
+                current_dir,
+                'Use ls to inspect a directory, then cat one of its files.'
+            )
         if target == '/home/nexus/network_trace.txt' and game_state['network_scan_found']:
             return result(item['content'], current_dir)
         if target == '/home/nexus/watcher_note.txt' and game_state['watcher_process_found']:
@@ -142,7 +170,11 @@ def execute_command(command, current_dir):
 
     if cmd == 'nmap':
         if len(args) != 1:
-            return command_error('nmap: usage: nmap <target>', current_dir, 'For the investigation, you already know one address worth checking.')
+            return command_error(
+                'nmap: usage: nmap <target>',
+                current_dir,
+                'For the investigation, you already know one address worth checking.'
+            )
         target = args[0]
         if target != '192.168.1.44':
             return result(f'Starting Nmap 7.94 simulation...\nHost: {target}\nStatus: down or outside the local node.', current_dir, educational=True)
@@ -152,16 +184,28 @@ def execute_command(command, current_dir):
 
     if cmd == 'ps':
         if args:
-            return command_error('ps: options are not supported in this terminal', current_dir, 'Try plain ps first.')
+            return command_error(
+                'ps: options are not supported in this terminal',
+                current_dir,
+                'Try plain ps first.'
+            )
         challenge_result = run_challenge03(command, '')
         output = 'PID   USER    NAME\n1     root    nexus-init\n214   nexus   desktop-session\n318   nexus   nova-agent\n417   root    nexus-watch --audit=network\n502   nexus   terminal'
         return result(output, current_dir, challenge_complete=challenge_result['complete'], notification=challenge_result['notification'])
 
     if cmd == 'netstat':
         if args:
-            return command_error('netstat: options are not supported in this terminal', current_dir, 'Try plain netstat first.')
+            return command_error(
+                'netstat: options are not supported in this terminal',
+                current_dir,
+                'Try plain netstat first.'
+            )
         challenge_result = run_challenge03(command, '')
         output = 'Active connections\n\nProto  Local Address          Foreign Address        State\ntcp    192.168.1.24:22       192.168.1.44:51122     ESTABLISHED\ntcp    192.168.1.24:443      192.168.1.44:443       ESTABLISHED\ntcp    127.0.0.1:9000       127.0.0.1:9001         LISTENING'
         return result(output, current_dir, challenge_complete=challenge_result['complete'], notification=challenge_result['notification'])
 
-    return command_error(f"{cmd}: command not found\nType 'help' for available commands.", current_dir, 'Use help if you are unsure what the terminal can do.')
+    return command_error(
+        f"{cmd}: command not found\nType 'help' for available commands.",
+        current_dir,
+        'Use help if you are unsure what the terminal can do.'
+    )
