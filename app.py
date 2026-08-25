@@ -69,9 +69,6 @@ def terminal_command():
     result["challenge_complete"] = result.get("challenge_complete", False)
     return jsonify(result)
 
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", debug=False)
-
 @app.route("/api/nova")
 def get_nova():
     return jsonify({"history": game_state["nova_history"], "last_message": game_state["last_nova_message"], "new_hint": game_state["nova_new_hint"], "hint_level": game_state["nova_hint_level"], "hint_stage": game_state["nova_hint_stage"]})
