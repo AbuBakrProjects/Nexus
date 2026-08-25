@@ -1,3 +1,154 @@
-#desktop { position:relative; overflow:hidden; background:#081009 url("/static/assets/wallpapers/nexus-bg.png") center / cover no-repeat; }
-.desktop-icons{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fill,112px);grid-auto-rows:112px;gap:16px 18px;align-content:start;width:min(700px,96vw);padding:28px}.desktop-icon{width:112px;text-align:center}.desktop-icon-button{position:relative;display:grid;place-items:center;width:70px;height:70px;margin:0 auto 7px;padding:0;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(8,15,9,.78);box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 5px 18px rgba(0,0,0,.22);cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease,box-shadow .12s ease}.desktop-icon-button span:first-child{font-family:"VT323",monospace;font-size:39px;line-height:1}.icon-files span:first-child{color:#65a7ff}.icon-browser span:first-child{color:#72d7cf}.icon-messages span:first-child{color:#e6b75c}.icon-terminal span:first-child{color:#78e09d;font:27px monospace}.icon-games span:first-child{color:#bd88ff}.icon-nova span:first-child{color:#ff7f9d;font:20px "Press Start 2P",monospace}.icon-logs span:first-child{color:#ff9b69;font-size:45px}.icon-missions span:first-child{color:#8fa8ff}.icon-evidence span:first-child{color:#d6a85e}.icon-network span:first-child{color:#5fd7ff;font-size:47px}.icon-security span:first-child{color:#e06b72}.desktop-icon-button:hover{transform:translateY(-2px);border-color:currentColor;background:rgba(255,255,255,.07);box-shadow:0 0 18px rgba(255,255,255,.08),0 7px 20px rgba(0,0,0,.3)}.desktop-icon p{margin:0;color:#e5e7e5;font-size:18px;letter-spacing:1px;text-shadow:0 2px 5px #000}.notification-badge{position:absolute;top:-6px;right:-6px;display:grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#e06b72;color:#fff;font:8px "Press Start 2P",monospace;box-shadow:0 0 12px rgba(224,107,114,.45)}.hidden{display:none!important}@media(max-width:600px){.desktop-icons{grid-template-columns:repeat(3,94px);grid-auto-rows:100px;gap:10px;padding:18px}.desktop-icon{width:94px}}
-.desktop-alert{position:absolute;top:-5px;right:-5px;display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#d6a85e;color:#111;font:8px "Press Start 2P",monospace;box-shadow:0 0 12px rgba(214,168,94,.25)}
+#desktop {
+    position: relative;
+    overflow: hidden;
+    background: #081009 url("/static/assets/wallpapers/nexus-bg.png") center / cover no-repeat;
+}
+
+.desktop-icons {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 112px);
+    grid-auto-rows: 112px;
+    gap: 16px 18px;
+    align-content: start;
+    width: min(700px, 96vw);
+    padding: 28px
+}
+
+.desktop-icon {
+    width: 112px;
+    text-align: center
+}
+
+.desktop-icon-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 7px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 12px;
+    background: rgba(8, 15, 9, .78);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .025), 0 5px 18px rgba(0, 0, 0, .22);
+    cursor: pointer;
+    transition: transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease
+}
+
+.desktop-icon-button span:first-child {
+    font-family: "VT323", monospace;
+    font-size: 39px;
+    line-height: 1
+}
+
+.icon-files span:first-child {
+    color: #65a7ff
+}
+
+.icon-browser span:first-child {
+    color: #72d7cf
+}
+
+.icon-messages span:first-child {
+    color: #e6b75c
+}
+
+.icon-terminal span:first-child {
+    color: #78e09d;
+    font: 27px monospace
+}
+
+.icon-games span:first-child {
+    color: #bd88ff
+}
+
+.icon-nova span:first-child {
+    color: #ff7f9d;
+    font: 20px "Press Start 2P", monospace
+}
+
+.icon-logs span:first-child {
+    color: #ff9b69;
+    font-size: 45px
+}
+
+.icon-missions span:first-child {
+    color: #8fa8ff
+}
+
+.icon-evidence span:first-child {
+    color: #d6a85e
+}
+
+.icon-network span:first-child {
+    color: #5fd7ff;
+    font-size: 47px
+}
+
+.icon-security span:first-child {
+    color: #e06b72
+}
+
+.desktop-icon-button:hover {
+    transform: translateY(-2px);
+    border-color: currentColor;
+    background: rgba(255, 255, 255, .07);
+    box-shadow: 0 0 18px rgba(255, 255, 255, .08), 0 7px 20px rgba(0, 0, 0, .3)
+}
+
+.desktop-icon p {
+    margin: 0;
+    color: #e5e7e5;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 5px #000
+}
+
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: #e06b72;
+    color: #fff;
+    font: 8px "Press Start 2P", monospace;
+    box-shadow: 0 0 12px rgba(224, 107, 114, .45)
+}
+
+.hidden {
+    display: none !important
+}
+
+@media(max-width:600px) {
+    .desktop-icons {
+        grid-template-columns: repeat(3, 94px);
+        grid-auto-rows: 100px;
+        gap: 10px;
+        padding: 18px
+    }
+
+    .desktop-icon {
+        width: 94px
+    }
+}
+
+.desktop-alert {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: grid;
+    place-items: center;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: #d6a85e;
+    color: #111;
+    font: 8px "Press Start 2P", monospace;
+    box-shadow: 0 0 12px rgba(214, 168, 94, .25)
+}

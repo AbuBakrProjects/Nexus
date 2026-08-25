@@ -67,7 +67,7 @@
     cursor:pointer;
 }
 
-#novaActions button:hover,#novaHistoryButton:hover; {
+#novaActions button:hover,#novaHistoryButton:hover {
     border-color:#8fa8ff;
     background:#20252f;
 }
@@ -193,7 +193,8 @@
     line-height:1.12;
     white-space:pre-line;
 }
-@media(max-width:600px); {
+
+@media(max-width:600px) {
     #novaMessageBox {
         right:10px;
         bottom:58px;
