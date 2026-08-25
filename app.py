@@ -79,11 +79,18 @@ def record_nova():
     text = str(data.get("text", "")).strip()
     if not text:
         return jsonify({"ok": False}), 400
-    if game_state["last_nova_message"] != text:
-        game_state["nova_history"].append({"text": text, "stage": str(data.get("stage", "")), "time": datetime.now().strftime("%H:%M")})
+    is_new_message = game_state["last_nova_message"] != text
+
+    if is_new_message:
+        game_state["nova_history"].append({
+            "text": text,
+            "stage": str(data.get("stage", "")),
+            "time": datetime.now().strftime("%H:%M")
+        })
         game_state["nova_history"] = game_state["nova_history"][-5:]
+
     game_state["last_nova_message"] = text
-    game_state["nova_new_hint"] = False
+    game_state["nova_new_hint"] = is_new_message
     return jsonify({"ok": True})
 
 @app.route("/api/nova/read", methods=["POST"])

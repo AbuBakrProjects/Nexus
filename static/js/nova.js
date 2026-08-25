@@ -10,54 +10,91 @@ let novaCurrentStage = "";
 
 async function initializeNova() {
     if (novaInitialized && novaBox) return;
+
     try {
         const response = await fetch("/nova");
-        if (!response.ok) throw new Error("NOVA failed to load.");
+
+        if (!response.ok) {
+            throw new Error("NOVA failed to load.");
+        }
+
         document.body.insertAdjacentHTML("beforeend", await response.text());
+
         novaBox = document.getElementById("novaMessageBox");
         novaText = document.getElementById("novaText");
         novaMinimized = document.getElementById("novaMinimized");
         novaHistoryPanel = document.getElementById("novaHistoryPanel");
         novaHistoryList = document.getElementById("novaHistoryList");
         novaNewHint = document.getElementById("novaNewHint");
-        document.getElementById("novaMinimizedButton")?.addEventListener("click", () => novaRestore());
+
+        document.getElementById("novaMinimizedButton")?.addEventListener("click", novaRestore);
         novaMinimized?.addEventListener("click", novaRestore);
         document.getElementById("novaMinimizeButton")?.addEventListener("click", novaMinimize);
         document.getElementById("novaHistoryButton")?.addEventListener("click", openNovaHistory);
         document.getElementById("novaHistoryClose")?.addEventListener("click", closeNovaHistory);
         document.getElementById("novaHintButton")?.addEventListener("click", requestNovaHint);
+
         novaInitialized = true;
         await refreshNovaState();
-    } catch (error) { console.error("NOVA failed to initialize:", error); }
+    } catch (error) {
+        console.error("NOVA failed to initialize:", error);
+    }
 }
 
-function novaMinimize(markNew = false) {
+function novaMinimize(markNew = true) {
     clearTimeout(novaTimeout);
     novaBox?.classList.remove("nova-show");
+
     if (novaMinimized) {
         novaMinimized.classList.add("show");
         novaMinimized.classList.toggle("new-hint", markNew);
     }
 }
 
-function novaRestore() {
+async function novaRestore() {
+    if (!novaBox || !novaText) {
+        await initializeNova();
+    }
+
     if (!novaBox || !novaText) return;
+
+    clearTimeout(novaTimeout);
     novaMinimized?.classList.remove("show", "new-hint");
     novaBox.classList.add("nova-show");
-    clearTimeout(novaTimeout);
-    novaTimeout = setTimeout(novaMinimize, 9000);
+
+    try {
+        await fetch("/api/nova/read", { method: "POST" });
+    } catch (error) {
+        console.error("NOVA read state failed:", error);
+    }
+
+    novaTimeout = setTimeout(() => novaMinimize(false), 9000);
 }
 
 async function novaSay(message, duration = 9000, stage = "") {
-    if (!novaBox || !novaText) { await initializeNova(); }
+    if (!novaBox || !novaText) {
+        await initializeNova();
+    }
+
     if (!novaBox || !novaText) return;
+
     clearTimeout(novaTimeout);
     novaCurrentStage = stage;
     novaText.textContent = message;
     novaMinimized?.classList.remove("show", "new-hint");
     novaBox.classList.add("nova-show");
     playOpenSound?.();
-    try { await fetch("/api/nova/record", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: message, stage }) }); } catch (error) { console.error(error); }
+
+    try {
+        await fetch("/api/nova/record", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: message, stage })
+        });
+    } catch (error) {
+        console.error("NOVA message state failed:", error);
+    }
+
     await refreshNovaState();
     novaTimeout = setTimeout(() => novaMinimize(true), duration);
 }
@@ -65,23 +102,60 @@ async function novaSay(message, duration = 9000, stage = "") {
 async function refreshNovaState() {
     try {
         const response = await fetch("/api/nova");
+
         if (!response.ok) return;
+
         const data = await response.json();
-        if (novaMinimized && data.last_message && !novaBox?.classList.contains("nova-show")) novaMinimized.classList.add("show");
-        if (novaMinimized) novaMinimized.classList.toggle("new-hint", Boolean(data.new_hint));
-        if (novaHistoryList) novaHistoryList.innerHTML = (data.history || []).slice().reverse().map(item => `<article class="nova-history-item"><b>NOVA</b><time>${item.time || ""}</time><p>${escapeNova(item.text || "")}</p></article>`).join("") || `<div class="nova-history-item"><p>No previous guidance yet.</p></div>`;
-    } catch (error) { console.error("NOVA state failed:", error); }
+
+        if (novaMinimized && data.last_message && !novaBox?.classList.contains("nova-show")) {
+            novaMinimized.classList.add("show");
+        }
+
+        if (novaMinimized) {
+            novaMinimized.classList.toggle("new-hint", Boolean(data.new_hint));
+        }
+
+        if (novaHistoryList) {
+            const history = (data.history || []).slice().reverse();
+
+            novaHistoryList.innerHTML = history.map(item => `
+                <article class="nova-history-item">
+                    <b>NOVA</b>
+                    <time>${item.time || ""}</time>
+                    <p>${escapeNova(item.text || "")}</p>
+                </article>
+            `).join("") || `<div class="nova-history-item"><p>No previous guidance yet.</p></div>`;
+        }
+    } catch (error) {
+        console.error("NOVA state failed:", error);
+    }
 }
 
-function escapeNova(text) { const div = document.createElement("div"); div.textContent = text; return div.innerHTML; }
-function openNovaHistory() { novaHistoryPanel?.classList.add("show"); novaHistoryPanel?.setAttribute("aria-hidden", "false"); refreshNovaState(); }
-function closeNovaHistory() { novaHistoryPanel?.classList.remove("show"); novaHistoryPanel?.setAttribute("aria-hidden", "true"); }
+function escapeNova(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function openNovaHistory() {
+    novaHistoryPanel?.classList.add("show");
+    novaHistoryPanel?.setAttribute("aria-hidden", "false");
+    refreshNovaState();
+}
+
+function closeNovaHistory() {
+    novaHistoryPanel?.classList.remove("show");
+    novaHistoryPanel?.setAttribute("aria-hidden", "true");
+}
+
 async function requestNovaHint() {
     try {
         const response = await fetch("/api/nova/hint", { method: "POST" });
         const data = await response.json();
         await novaSay(`HINT ${data.level}/3\n\n${data.text}`, 10000, "hint");
-    } catch (error) { console.error("NOVA hint failed:", error); }
+    } catch (error) {
+        console.error("NOVA hint failed:", error);
+    }
 }
 
 function novaProgress(stage) {
@@ -101,7 +175,10 @@ function novaProgress(stage) {
         challenge03_complete: "That's enough evidence for now.\n\nSomething inside NEXUS was watching activity after the connection.\n\nThe bigger question is why.",
         goodbye: "Thanks for spending some time with NEXUS.\n\nIf you come back, keep digging. The machine has a longer memory than it admits."
     };
-    if (messages[stage]) novaSay(messages[stage], stage === "goodbye" ? 12000 : 9000, stage);
+
+    if (messages[stage]) {
+        novaSay(messages[stage], stage === "goodbye" ? 12000 : 9000, stage);
+    }
 }
 
 window.initializeNova = initializeNova;
