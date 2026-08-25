@@ -1,4 +1,453 @@
-.nexus-system-window,.evidence-window,.network-window,.security-window{position:fixed;top:90px;left:50%;z-index:500;transform:translateX(-50%);width:min(900px,92vw);height:min(620px,80vh);overflow:hidden;background:#101410;border:2px solid #465346;box-shadow:8px 8px 0 #000}.system-titlebar,.evidence-titlebar,.network-titlebar,.security-titlebar{position:relative;display:flex;align-items:center;height:42px;padding:0 14px;background:#171b17;border-bottom:2px solid #394139}.system-titlebar h1,.evidence-titlebar h1,.network-titlebar h1,.security-titlebar h1{position:absolute;left:50%;margin:0;transform:translateX(-50%);color:#aaa;font:10px "Press Start 2P",monospace;white-space:nowrap}.system-content{display:grid;grid-template-columns:190px 1fr;height:calc(100% - 42px)}.system-sidebar{padding:18px;background:#0b0f0b;border-right:2px solid #303830}.system-tab{width:100%;padding:12px 10px;margin-bottom:8px;border:1px solid #394139;background:#141914;color:#999;text-align:left}.system-tab.active,.system-tab:hover{color:#fff;border-color:#6f7fbd;background:#20252f}.system-main{padding:28px;overflow:auto;color:#ddd;font-family:"VT323",monospace}.system-kicker,.evidence-subtitle{color:#8fa8ff;font:9px "Press Start 2P",monospace}.system-main h2{color:#eee;font:16px "Press Start 2P",monospace;margin:14px 0 24px}.mission-card{display:grid;gap:8px;padding:18px;margin-bottom:12px;border:1px solid #3d465b;background:#151922}.mission-card b{color:#8fa8ff;font:10px "Press Start 2P",monospace}.mission-card span,.system-note{color:#999;font-size:20px}.hidden-panel{display:none}.profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.profile-grid div{padding:18px;border:1px solid #3d465b;background:#151922}.profile-grid span{display:block;color:#777}.profile-grid b{display:block;margin-top:8px;color:#dce4ff}.achievement-list{display:grid;gap:10px}.achievement{padding:14px;border:1px solid #3d465b;background:#151922}.achievement b{color:#d6a85e}.skill{display:grid;grid-template-columns:120px 1fr 50px;gap:12px;align-items:center;margin:18px 0}.skill span{color:#bbb}.skill>div{height:12px;background:#222831}.skill i{display:block;height:100%;background:#758bc2}.skill b{color:#8fa8ff}.evidence-content,.network-content,.security-content{height:calc(100% - 42px);padding:24px;color:#ddd;font-family:"VT323",monospace;overflow:auto}.evidence-board{position:relative;min-height:360px;margin-top:15px;border:1px dashed #3d465b;background:radial-gradient(circle,#161d29,#0e1117);overflow:hidden}.evidence-node{position:absolute;padding:15px;border:1px solid #53617f;background:#151922;color:#dce4ff;text-align:center;box-shadow:5px 5px 0 #050608;font:11px "Press Start 2P",monospace}.evidence-node small{display:block;margin-top:8px;color:#888;font:16px "VT323",monospace}.evidence-main{left:8%;top:38%}.evidence-alert{left:40%;top:14%;border-color:#b56d61;color:#ffb5aa}.evidence-log{right:8%;top:38%}.evidence-watch{left:40%;bottom:12%;border-color:#758bc2}.evidence-line{position:absolute;height:1px;background:#59657f;transform-origin:left center}.line-one{left:23%;top:43%;width:20%;transform:rotate(-27deg)}.line-two{left:56%;top:43%;width:18%}.evidence-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.evidence-pill{padding:8px 12px;border:1px solid #394139;color:#aaa;background:#151922}.network-header{display:flex;justify-content:space-between;padding:12px;border:1px solid #394139;background:#141914}.network-header b{color:#82d2a1}.network-map{display:flex;align-items:center;justify-content:center;margin:40px 0}.network-device{padding:20px 25px;border:1px solid #52607a;background:#151922;text-align:center;color:#dce4ff;font:11px "Press Start 2P",monospace}.network-device small{display:block;margin-top:8px;color:#888;font:18px "VT323",monospace}.network-device.suspicious{border-color:#b56d61;color:#ffb5aa}.network-connector{width:80px;height:2px;background:#59657f}.suspicious-connector{background:#b56d61}.connection-table{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.connection-table div{padding:16px;border:1px solid #394139;background:#141914}.connection-table span{display:block;color:#777}.connection-table b{display:block;margin-top:8px;color:#8fa8ff}.network-note,.security-warning{margin-top:18px;color:#777;font-size:19px}.security-status{display:flex;justify-content:space-between;padding:20px;border:1px solid #4a5264;background:#151922}.security-status strong{color:#d6a85e}.security-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.security-grid div{padding:20px;border:1px solid #394139;background:#141914}.security-grid b{display:block;color:#8fa8ff;font:10px "Press Start 2P",monospace}.security-grid span{display:block;margin-top:10px;color:#aaa;font-size:20px}
-@media(max-width:700px){.system-content{grid-template-columns:1fr}.system-sidebar{display:flex;gap:6px;overflow:auto;border-right:0;border-bottom:2px solid #303830}.system-tab{min-width:130px}.profile-grid,.security-grid{grid-template-columns:1fr}.network-map{transform:scale(.8)}}
+.nexus-system-window,.evidence-window,.network-window,.security-window {
+    position:fixed;
+    top:90px;
+    left:50%;
+    z-index:500;
+    transform:translateX(-50%);
+    width:min(900px,92vw);
+    height:min(620px,80vh);
+    overflow:hidden;
+    background:#101410;
+    border:2px solid #465346;
+    box-shadow:8px 8px 0 #000;
+}
 
-.investigation-trail{display:grid;gap:8px;margin:0 0 20px}.trail-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #303830;background:#111611;color:#777;font-size:18px}.trail-item.done{color:#cfd8cf;border-color:#4d5d4d}.trail-item.done b{color:#82d2a1}.evidence-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.evidence-pill{cursor:pointer;text-align:left}.evidence-detail{min-height:90px;margin-top:14px;padding:15px;border:1px solid #394139;background:#111611;color:#aaa;font-size:19px;white-space:pre-line}.evidence-pill.active{border-color:#8fa8ff;color:#dce4ff}
+.system-titlebar,.evidence-titlebar,.network-titlebar,.security-titlebar {
+    position:relative;
+    display:flex;
+    align-items:center;
+    height:42px;
+    padding:0 14px;
+    background:#171b17;
+    border-bottom:2px solid #394139;
+}
+
+.system-titlebar h1,.evidence-titlebar h1,.network-titlebar h1,.security-titlebar h1 {
+    position:absolute;
+    left:50%;
+    margin:0;
+    transform:translateX(-50%);
+    color:#aaa;
+    font:10px "Press Start 2P",monospace;
+    white-space:nowrap;
+}
+
+.system-content {
+    display:grid;
+    grid-template-columns:190px 1fr;
+    height:calc(100% - 42px);
+}
+
+.system-sidebar {
+    padding:18px;
+    background:#0b0f0b;
+    border-right:2px solid #303830;
+}
+
+.system-tab {
+    width:100%;
+    padding:12px 10px;
+    margin-bottom:8px;
+    border:1px solid #394139;
+    background:#141914;
+    color:#999;
+    text-align:left;
+}
+
+.system-tab.active,.system-tab:hover; {
+    color:#fff;
+    border-color:#6f7fbd;
+    background:#20252f;
+}
+
+.system-main {
+    padding:28px;
+    overflow:auto;
+    color:#ddd;
+    font-family:"VT323",monospace;
+}
+
+.system-kicker,.evidence-subtitle {
+    color:#8fa8ff;
+    font:9px "Press Start 2P",monospace;
+}
+
+.system-main h2 {
+    color:#eee;
+    font:16px "Press Start 2P",monospace;
+    margin:14px 0 24px;
+}
+
+.mission-card {
+    display:grid;
+    gap:8px;
+    padding:18px;
+    margin-bottom:12px;
+    border:1px solid #3d465b;
+    background:#151922;
+}
+
+.mission-card b {
+    color:#8fa8ff;
+    font:10px "Press Start 2P",monospace;
+}
+
+.mission-card span,.system-note {
+    color:#999;
+    font-size:20px;
+}
+
+.hidden-panel {
+    display:none;
+}
+
+.profile-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.profile-grid div {
+    padding:18px;
+    border:1px solid #3d465b;
+    background:#151922;
+}
+
+.profile-grid span {
+    display:block;
+    color:#777;
+}
+
+.profile-grid b {
+    display:block;
+    margin-top:8px;
+    color:#dce4ff;
+}
+
+.achievement-list {
+    display:grid;
+    gap:10px;
+}
+
+.achievement {
+    padding:14px;
+    border:1px solid #3d465b;
+    background:#151922;
+}
+
+.achievement b {
+    color:#d6a85e;
+}
+
+.skill {
+    display:grid;
+    grid-template-columns:120px 1fr 50px;
+    gap:12px;
+    align-items:center;
+    margin:18px 0;
+}
+
+.skill span {
+    color:#bbb;
+}
+
+.skill>div {
+    height:12px;
+    background:#222831;
+}
+
+.skill i {
+    display:block;
+    height:100%;
+    background:#758bc2;
+}
+
+.skill b {
+    color:#8fa8ff;
+}
+
+.evidence-content,.network-content,.security-content {
+    height:calc(100% - 42px);
+    padding:24px;
+    color:#ddd;
+    font-family:"VT323",monospace;
+    overflow:auto;
+}
+
+.evidence-board {
+    position:relative;
+    min-height:360px;
+    margin-top:15px;
+    border:1px dashed #3d465b;
+    background:radial-gradient(circle,#161d29,#0e1117);
+    overflow:hidden;
+}
+
+.evidence-node {
+    position:absolute;
+    padding:15px;
+    border:1px solid #53617f;
+    background:#151922;
+    color:#dce4ff;
+    text-align:center;
+    box-shadow:5px 5px 0 #050608;
+    font:11px "Press Start 2P",monospace;
+}
+
+.evidence-node small {
+    display:block;
+    margin-top:8px;
+    color:#888;
+    font:16px "VT323",monospace;
+}
+
+.evidence-main {
+    left:8%;
+    top:38%;
+}
+
+.evidence-alert {
+    left:40%;
+    top:14%;
+    border-color:#b56d61;
+    color:#ffb5aa;
+}
+
+.evidence-log {
+    right:8%;
+    top:38%;
+}
+
+.evidence-watch {
+    left:40%;
+    bottom:12%;
+    border-color:#758bc2;
+}
+
+.evidence-line {
+    position:absolute;
+    height:1px;
+    background:#59657f;
+    transform-origin:left center;
+}
+
+.line-one {
+    left:23%;
+    top:43%;
+    width:20%;
+    transform:rotate(-27deg);
+}
+
+.line-two {
+    left:56%;
+    top:43%;
+    width:18%;
+}
+
+.evidence-list {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+}
+
+.evidence-pill {
+    padding:8px 12px;
+    border:1px solid #394139;
+    color:#aaa;
+    background:#151922;
+}
+
+.network-header {
+    display:flex;
+    justify-content:space-between;
+    padding:12px;
+    border:1px solid #394139;
+    background:#141914;
+}
+
+.network-header b {
+    color:#82d2a1;
+}
+
+.network-map {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:40px 0;
+}
+
+.network-device {
+    padding:20px 25px;
+    border:1px solid #52607a;
+    background:#151922;
+    text-align:center;
+    color:#dce4ff;
+    font:11px "Press Start 2P",monospace;
+}
+
+.network-device small {
+    display:block;
+    margin-top:8px;
+    color:#888;
+    font:18px "VT323",monospace;
+}
+
+.network-device.suspicious {
+    border-color:#b56d61;
+    color:#ffb5aa;
+}
+
+.network-connector {
+    width:80px;
+    height:2px;
+    background:#59657f;
+}
+
+.suspicious-connector {
+    background:#b56d61;
+}
+
+.connection-table {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.connection-table div {
+    padding:16px;
+    border:1px solid #394139;
+    background:#141914;
+}
+
+.connection-table span {
+    display:block;
+    color:#777;
+}
+
+.connection-table b {
+    display:block;
+    margin-top:8px;
+    color:#8fa8ff;
+}
+
+.network-note,.security-warning {
+    margin-top:18px;
+    color:#777;
+    font-size:19px;
+}
+
+.security-status {
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+    border:1px solid #4a5264;
+    background:#151922;
+}
+
+.security-status strong {
+    color:#d6a85e;
+}
+
+.security-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.security-grid div {
+    padding:20px;
+    border:1px solid #394139;
+    background:#141914;
+}
+
+.security-grid b {
+    display:block;
+    color:#8fa8ff;
+    font:10px "Press Start 2P",monospace;
+}
+
+.security-grid span {
+    display:block;
+    margin-top:10px;
+    color:#aaa;
+    font-size:20px;
+}
+@media(max-width:700px); {
+    .system-content {
+        grid-template-columns:1fr;
+    }
+
+    .system-sidebar {
+        display:flex;
+        gap:6px;
+        overflow:auto;
+        border-right:0;
+        border-bottom:2px solid #303830;
+    }
+
+    .system-tab {
+        min-width:130px;
+    }
+
+    .profile-grid,.security-grid {
+        grid-template-columns:1fr;
+    }
+
+    .network-map {
+        transform:scale(.8);
+    }
+}
+
+.investigation-trail {
+    display:grid;
+    gap:8px;
+    margin:0 0 20px;
+}
+
+.trail-item {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 11px;
+    border:1px solid #303830;
+    background:#111611;
+    color:#777;
+    font-size:18px;
+}
+
+.trail-item.done {
+    color:#cfd8cf;
+    border-color:#4d5d4d;
+}
+
+.trail-item.done b {
+    color:#82d2a1;
+}
+
+.evidence-list {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+}
+
+.evidence-pill {
+    cursor:pointer;
+    text-align:left;
+}
+
+.evidence-detail {
+    min-height:90px;
+    margin-top:14px;
+    padding:15px;
+    border:1px solid #394139;
+    background:#111611;
+    color:#aaa;
+    font-size:19px;
+    white-space:pre-line;
+}
+
+.evidence-pill.active {
+    border-color:#8fa8ff;
+    color:#dce4ff;
+}
