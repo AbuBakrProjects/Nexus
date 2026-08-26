@@ -1,11 +1,12 @@
 INITIAL_MESSAGE = {
     "sender": "UNKNOWN",
     "time": "03:02",
-    "text": """If you're seeing this, then NEXUS came back online.\n\nIt wasn't supposed to.\n\nThe last shutdown was recorded.\nThe restart wasn't.\n\nDon't trust what the desktop tells you.\nSomething happened before you arrived.\n\nThere are traces of it all over this machine.\n\nLogs.\nConnections.\nOld system files.\n\nStart by looking around.\n\nIf you know how to use the terminal, you already know where to begin.\nIf you don't, that's okay.\n\nOpen it.\n\n— UNKNOWN"""
+    "text": """If you're reading this, NEXUS is running again.\n\nI don't know who started it.\n\nI don't know why.\n\nBut someone has been waiting for this machine to come back online.\n\nBefore you do anything else, find out what machine you're actually sitting on.\n\nDon't trust what the desktop tells you.\n\n— UNKNOWN"""
 }
 
 game_state = {
     "current_challenge": 1,
+    "story_scene": 1,
     "message_unlocked": True,
     "access_log_found": False,
     "network_config_found": False,
@@ -16,6 +17,7 @@ game_state = {
     "challenge01_complete": False,
     "challenge02_complete": False,
     "challenge03_complete": False,
+    "chapter01_complete": False,
     "unread_messages": 1,
     "messages": [INITIAL_MESSAGE],
     "evidence": ["boot_record"],
@@ -28,6 +30,33 @@ game_state = {
     "nova_hint_level": 0,
     "nova_hint_stage": "start",
     "terminal_experiments": {},
+    "ipconfig_found": False,
+    "root_dir_found": False,
+    "logs_dir_found": False,
+    "network_log_found": False,
+    "access_log_story_found": False,
+    "nmap_found": False,
+    "netstat_found": False,
+    "tasklist_found": False,
+    "watcher_pid_found": False,
+    "netstat_pid_found": False,
+    "watcher_config_found": False,
+    "system_timeline_found": False,
+    "admin_target_found": False,
+    "password_attempts_found": False,
+    "missing_seconds_found": False,
+    "temp_file_found": False,
+    "recovery_message_found": False,
+    "unknown_warning_found": False,
+    "watcher_log_found": False,
+    "watcher_isolate_found": False,
+    "original_config_found": False,
+    "abubakr_record_found": False,
+    "watcher_modified_found": False,
+    "sync_process_found": False,
+    "sync_connection_found": False,
+    "sync_config_found": False,
+    "final_message_found": False,
 }
 
 def add_evidence(evidence_id, source, time, finding, status="DISCOVERED"):
@@ -44,5 +73,9 @@ def add_message(message):
 
 def complete_challenge(number):
     game_state[f"challenge0{number}_complete"] = True
-    game_state["current_challenge"] = number + 1
+    game_state["current_challenge"] = min(number + 1, 3)
+    game_state["nova_hint_level"] = 0
+
+def advance_scene(scene):
+    game_state["story_scene"] = max(game_state["story_scene"], scene)
     game_state["nova_hint_level"] = 0

@@ -160,25 +160,38 @@ async function requestNovaHint() {
 
 function novaProgress(stage) {
     const messages = {
-        start: "Hey, explorer.\n\nFirst: check MESSAGES. UNKNOWN left something for you.\n\nThen open TERMINAL. Good first commands:\n• ls\n• pwd\n• ls /\n\nI’ll guide you without solving the investigation for you.",
-        terminal: "You're in.\n\nStart with ls. pwd tells you where you are.\n\nIf you're curious, try ls / to see the machine's top-level folders.",
-        home: "Nothing too interesting here.\n\nTry ls /.\n\nLook for folders that might contain system information, logs, or missions.",
-        root: "There we go. You found /logs.\n\nTry ls /logs.\n\nThen read the access records.",
-        logs: "Two logs. Start with access.log.\n\nTry cat /logs/access.log.\n\nLook for repeated addresses, failed logins, and what happens before success.",
-        suspicious_ip: "192.168.1.44 appears three times as a failure, then succeeds.\n\nDon't call it an attacker yet. We need evidence.\n\nTry ls /etc, then compare NEXUS's address in network.conf.",
-        etc: "Exactly. /etc contains system configuration.\n\nTry cat /etc/network.conf.\n\nCompare NEXUS's address with 192.168.1.44.",
-        network_config: "NEXUS is 192.168.1.24. The login source was .44.\n\nChallenge 01 is solved.\n\nNow ask what .44 was exposing.",
-        nmap: "The node is alive. Read the ports carefully.\n\nThe 03:17 timestamp is your next clue.",
-        system_log: "03:17. That's the timestamp UNKNOWN warned you about.\n\nNow investigate the watcher. Try ps, then netstat.",
-        ps: "Look for anything that doesn't look like a normal desktop process.\n\nThe watcher may not call itself a watcher.",
-        netstat: "There. A connection that doesn't fit the normal pattern.\n\nYou've connected the login, service, process, and network trace.",
-        challenge03_complete: "That's enough evidence for now.\n\nSomething inside NEXUS was watching activity after the connection.\n\nThe bigger question is why.",
-        goodbye: "Thanks for spending some time with NEXUS.\n\nIf you come back, keep digging. The machine has a longer memory than it admits."
+        start: "That message is unusual.\n\nBefore we investigate the sender, we should establish what we're working with.\n\nI can tell you what the system reports about itself, but I won't tell you where to look.\n\nStart with the terminal. There are commands that can tell you who you're operating as and what machine you're connected to.",
+        terminal: "Start with the machine's basic identity.\n\nThere are commands that can tell you which user is operating the system and what this machine calls itself.",
+        identity: "We know who you're operating as.\n\nNow find out what else the system tells you about this machine.",
+        network: "The hostname identifies the machine, but it doesn't tell us where that machine exists on the network.\n\nLet's check NEXUS's current network configuration.",
+        ipconfig: "There we are.\n\nNEXUS is currently using 192.168.1.24. That's a network identity we can actually investigate.\n\nBut something isn't right. Something changed.",
+        root: "Interesting. There's a dedicated Logs directory.\n\nIf something changed on this machine, that's one of the first places I'd investigate.",
+        logs: "There are several logs here.\n\nWe're looking for the change in NEXUS's network identity. Start with the network information.",
+        network_log: "There.\n\nNEXUS used to have another address: 192.168.1.17.\n\nThe change happened at 03:17. One second later, NEXUS-WATCH was initialized. That's too close together to ignore.",
+        access_log: "The network log recorded a remote connection immediately before the configuration changed.\n\nThe source address was 192.168.1.44. Let's find out whether that address appears anywhere else.",
+        nmap: "We have an IP address, but that's all we have.\n\nBefore we assume it's an attacker, let's find out what the machine is actually exposing.\n\nInvestigate 192.168.1.44.",
+        netstat: "Look at the connection carefully.\n\nThe local address is NEXUS. The foreign address is .44. We still need to connect this activity to something running inside NEXUS.",
+        tasklist: "Every active program on a computer runs as a process.\n\nIf something inside NEXUS is communicating with .44, there should be a process responsible for it.",
+        pid: "We have something useful now: nexus-watch.exe, PID 3172.\n\nLet's connect that process to the network connection.",
+        wmic: "The watcher lives inside the NEXUS installation.\n\nNow find its configuration and see what it was designed to monitor.",
+        watcher_config: "The configuration tells us what NEXUS is watching.\n\nIt doesn't yet tell us why.",
+        system_log: "The sequence is starting to make sense.\n\nNow verify which account .44 tried to authenticate as.",
+        net_user: "Administrator exists.\n\nSo the username wasn't random. Check the timing of the failed attempts.",
+        attempts: "Five attempts in less than five seconds.\n\nThe attempts stopped at 03:16:55, but the security event came later. There are six seconds we haven't explained.",
+        missing: "Find out what happened between 03:16:55 and 03:17:01.\n\nThe network log may contain something the system log doesn't.",
+        temp: "Data transferred to a machine has to be handled somewhere.\n\nLook for anything created around 03:16.",
+        recovery: "That's not what I expected.\n\nThe message says the watcher isn't for .44. It's warning us about something inside NEXUS.",
+        watcher_log: "The watcher isn't only monitoring .44.\n\nIt can perform a local action when it detects something.",
+        isolate: "Isolate.\n\nThat's an automated security response. But why was the watcher changed specifically for .44?",
+        original: "The original watcher was passive and log-only.\n\nSomeone changed its configuration later. Find out who authorized the original system.",
+        admin_record: "Abubakr authorized the original watcher, but that account is revoked.\n\nNow we need to find who changed the current configuration.",
+        modified: "The watcher configuration was modified at exactly 03:17:04 by SYSTEM.\n\nSomething instructed the system to change it.",
+        sync: "I don't remember seeing nexus-sync.exe earlier.\n\nCheck when it started and what it connects to.",
+        sync_connection: "nexus-sync.exe started one second before nexus-watch and connected to .44.\n\nThe watcher wasn't the beginning. It was the response.",
+        sync_config: "Recovery.\n\nNEXUS was attempting to synchronize with .44. We still don't know what it was trying to recover.",
+        complete: "We have a new lead.\n\n03:17 was not the beginning. Something happened before that.\n\nWhatever NEXUS was trying to recover appears to be the reason .44 exists in the first place."
     };
-
-    if (messages[stage]) {
-        novaSay(messages[stage], stage === "goodbye" ? 12000 : 9000, stage);
-    }
+    if (messages[stage]) novaSay(messages[stage], 10000, stage);
 }
 
 window.initializeNova = initializeNova;

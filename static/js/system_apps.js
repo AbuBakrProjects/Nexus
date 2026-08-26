@@ -59,13 +59,28 @@ async function initializeMissions() {
     }
     const state = await fetchState();
     const trail = [
-        ["access_log_found", "Found /logs", "Read access.log"],
-        ["access_log_found", "Read access.log", "Found 192.168.1.44"],
-        ["network_config_found", "Compared NEXUS address", "Confirmed .44 is external"],
-        ["network_scan_found", "Identified the service", "Scanned 192.168.1.44"],
-        ["system_log_found", "Followed 03:17", "Read system.log"],
-        ["watcher_process_found", "Found the watcher", "Identified nexus-watch"],
-        ["watcher_connection_found", "Correlated the connection", "Confirmed the watcher link"]
+        ["ipconfig_found", "Identified NEXUS as 192.168.1.24", "Establish the network identity"],
+        ["root_dir_found", "Found the machine records", "Run dir"],
+        ["network_log_found", "Read network.log", "Find the 03:17 change"],
+        ["access_log_story_found", "Found 192.168.1.44", "Check the access record"],
+        ["network_scan_found", "Scanned .44", "Identify its services"],
+        ["netstat_found", "Correlated the connection", "Compare local and foreign addresses"],
+        ["tasklist_found", "Found nexus-watch.exe", "Inspect running processes"],
+        ["watcher_pid_found", "Linked PID 3172 to .44", "Correlate process and network evidence"],
+        ["watcher_config_found", "Read watcher configuration", "Find out what it monitors"],
+        ["admin_target_found", "Verified Administrator exists", "Check the failed authentication"],
+        ["password_attempts_found", "Found five rapid attempts", "Reconstruct the timeline"],
+        ["missing_seconds_found", "Explained the missing six seconds", "Compare network activity"],
+        ["recovery_message_found", "Found the recovery request", "Read the transferred file"],
+        ["watcher_log_found", "Found LOCAL ACTION", "Inspect the watcher log"],
+        ["watcher_isolate_found", "Discovered ISOLATE", "Read the current configuration"],
+        ["original_config_found", "Found the original watcher", "Check the archive"],
+        ["abubakr_record_found", "Found the original authorization", "Identify the old operator"],
+        ["watcher_modified_found", "Found the 03:17:04 modification", "Find what caused it"],
+        ["sync_process_found", "Found nexus-sync.exe", "Check when it started"],
+        ["sync_connection_found", "Correlated sync with .44", "Inspect its connection"],
+        ["sync_config_found", "Found RECOVERY mode", "Read sync.conf"],
+        ["final_message_found", "Found the recovery lead", "Connect to .44"]
     ];
     const trailRoot = root.querySelector("#investigationTrail");
     if (trailRoot) {
@@ -125,12 +140,16 @@ async function updateSystemApps() {
     const securityState = document.getElementById("securityState");
     const active = document.querySelector("#networkWindow .network-header b");
     const suspicious = document.querySelector("#networkWindow .suspicious");
+    const evidence44 = document.getElementById("evidenceNode44");
+    const evidenceWatcher = document.getElementById("evidenceNodeWatcher");
     if (watcher) watcher.textContent = state.watcher_process_found ? "✓ NEXUS-WATCH FOUND" : "UNKNOWN";
     if (network) network.textContent = state.watcher_process_found ? "⚠ WATCHER PROCESS DETECTED" : state.network_scan_found ? "⚠ .44 SERVICE DISCOVERED" : state.access_log_found ? "⚠ UNKNOWN NODE" : "MONITORING";
     if (auth) auth.textContent = state.access_log_found ? "⚠ REPEATED FAILURES" : "MONITORING";
     if (securityState) securityState.textContent = state.watcher_process_found ? "WATCHER DETECTED" : state.access_log_found ? "INVESTIGATION ACTIVE" : "MONITORING";
     if (active) active.textContent = state.watcher_process_found ? "WATCHER DETECTED" : state.access_log_found ? "3 ACTIVE CONNECTIONS" : "2 ACTIVE CONNECTIONS";
-    if (suspicious) suspicious.innerHTML = state.access_log_found ? ".44<br><small>UNKNOWN NODE</small>" : "?<br><small>LOCKED</small>";
+    if (suspicious) suspicious.innerHTML = state.access_log_story_found ? ".44<br><small>UNKNOWN NODE</small>" : "?<br><small>UNKNOWN</small>";
+    if (evidence44) evidence44.style.display = state.access_log_story_found ? "" : "none";
+    if (evidenceWatcher) evidenceWatcher.style.display = state.watcher_process_found ? "" : "none";
 }
 
 window.openMissions = openMissions;
