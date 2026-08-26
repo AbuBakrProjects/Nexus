@@ -1,114 +1,55 @@
-from system.state import game_state, add_evidence, add_message, complete_challenge
+from system.state import game_state, add_evidence, add_message, complete_challenge, advance_scene
 
-TITLE = "NEXUS NODE 01"
-INTRO = """UNKNOWN
+OBJECTIVE = """CHAPTER 01 · THE WATCHER\n\nDetermine what machine you are actually sitting on, reconstruct the first network trace, and investigate 192.168.1.44."""
 
-If you're seeing this, then NEXUS came back online.
+EMAIL_02 = {"sender":"UNKNOWN","time":"03:11","text":"""You're looking in the right place.\n\nBut you're not the first person to access this machine.\n\nKeep digging.\n\n— UNKNOWN"""}
 
-It wasn't supposed to.
+EMAIL_03 = {"sender":"UNKNOWN","time":"03:17","text":"""You found it.\n\nThe connection wasn't the whole story.\n\nLook at what happened around 03:17.\n\n— UNKNOWN"""}
 
-The last shutdown was recorded.
-The restart wasn't.
-
-Don't trust what the desktop tells you.
-Something happened before you arrived.
-
-There are traces of it all over this machine.
-
-Logs.
-Connections.
-Old system files.
-
-Start by looking around.
-
-If you know how to use the terminal, you already know where to begin.
-If you don't...
-
-That's okay.
-
-Open it.
-
-I'll tell you what you need to know when you need it.
-
-— UNKNOWN"""
-
-SECOND_MESSAGE = {
-    "sender": "UNKNOWN",
-    "time": "03:11",
-    "text": """You found the part I was worried about.
-
-192.168.1.44
-
-Don't assume it's an intruder yet.
-
-An unfamiliar address isn't proof of anything.
-We need something to compare it with.
-
-Find out what address belongs to NEXUS itself.
-
-Look through the system configuration.
-
-Start with:
-/etc
-
-If you're not familiar with the terminal, ask NOVA.
-She'll keep you from getting lost.
-
-— UNKNOWN"""
-}
-
-SUCCESS_MESSAGE = {
-    "sender": "UNKNOWN",
-    "time": "03:17",
-    "text": """So.
-
-Now you know.
-
-192.168.1.44 wasn't NEXUS.
-Someone else was connecting to this machine.
-
-And they tried three times before they got in.
-
-That's the part that bothers me.
-
-But there's something else.
-
-I need you to find out what happened at 03:17.
-
-Don't open the system log yet.
-There's another way in.
-
-I'll contact you again.
-
-— UNKNOWN"""
-}
-
-OBJECTIVE = """CHALLENGE 01
-
-Determine whether the connection recorded at 03:11 belongs to NEXUS.
-
-Investigate the access logs, identify the suspicious address, then compare it with NEXUS's own network configuration."""
-SUCCESS = """CHALLENGE 01 COMPLETE.
-
-192.168.1.44 does not belong to NEXUS.
-
-Someone else was connecting to this machine."""
-
-def run_challenge01(command, target):
-    if game_state["challenge01_complete"]:
+def run_challenge01(command, target=""):
+    s = game_state
+    if s["challenge01_complete"]:
         return {"complete": True, "notification": None}
-    if target == "/logs/access.log" and command.startswith("cat "):
-        if not game_state["access_log_found"]:
-            game_state["access_log_found"] = True
-            add_message(SECOND_MESSAGE)
-            add_evidence("access_log", "/logs/access.log", "03:11", "192.168.1.44 failed three times, then authenticated.")
-            return {"complete": False, "notification": {"title": "NEW MESSAGE", "text": "UNKNOWN sent you another message.", "sender": "UNKNOWN", "stage": 1}}
-    if target == "/etc/network.conf" and command.startswith("cat ") and game_state["access_log_found"]:
-        if not game_state["network_config_found"]:
-            game_state["network_config_found"] = True
-            complete_challenge(1)
-            add_message(SUCCESS_MESSAGE)
-            add_evidence("network_config", "/etc/network.conf", "03:04", "NEXUS identifies itself as 192.168.1.24; .44 is a different node.")
-            if "who_is_44" not in game_state["achievements"]: game_state["achievements"].append("who_is_44")
-            return {"complete": True, "notification": {"title": "CHALLENGE 01 COMPLETE", "text": "UNKNOWN sent you another message.", "sender": "UNKNOWN", "stage": 2}}
-    return {"complete": game_state["challenge01_complete"], "notification": None}
+    c = command.strip().lower()
+    notification = None
+    if c == "whoami" and s["story_scene"] <= 2:
+        advance_scene(2)
+    elif c == "hostname" and s["story_scene"] >= 2:
+        advance_scene(3)
+    elif c == "ipconfig":
+        s["ipconfig_found"] = True
+        add_evidence("network_identity", "ipconfig", "03:04", "NEXUS is using 192.168.1.24 with gateway 192.168.1.1.")
+        advance_scene(4)
+    elif c in ("dir", "ls") and s["ipconfig_found"]:
+        s["root_dir_found"] = True
+        advance_scene(5)
+    elif c in ("cd logs", "cd /logs"):
+        s["logs_dir_found"] = True
+        advance_scene(6)
+    elif target == "/logs/network.log" and c.startswith(("type ", "cat ")):
+        if not s["network_log_found"]:
+            s["network_log_found"] = True
+            add_evidence("network_log", "/logs/network.log", "03:17", "192.168.1.44 connected immediately before the network configuration change; NEXUS-WATCH initialized at 03:17:04.")
+            add_message(EMAIL_02)
+            advance_scene(7)
+            notification = {"title":"NEW MESSAGE","text":"UNKNOWN sent another message.","sender":"UNKNOWN","stage":1}
+    elif target == "/logs/access.log" and c.startswith(("type ", "cat ")) and s["network_log_found"]:
+        if not s["access_log_story_found"]:
+            s["access_log_story_found"] = True
+            s["access_log_found"] = True
+            add_evidence("access_log_story", "/logs/access.log", "03:16:51", "192.168.1.44 established a remote connection immediately before the 03:17 change.")
+            advance_scene(8)
+    elif c == "nmap 192.168.1.44" and s["access_log_story_found"]:
+        s["network_scan_found"] = True
+        s["nmap_found"] = True
+        add_evidence("network_scan", "NMAP", "03:17", "192.168.1.44 exposes SSH, HTTP, and HTTPS.")
+        if "network_ghost" not in s["achievements"]: s["achievements"].append("network_ghost")
+        advance_scene(9)
+    elif c == "netstat" and s["nmap_found"]:
+        s["netstat_found"] = True
+        add_evidence("connection_trace", "netstat", "03:17", "NEXUS 192.168.1.24 has an established connection with 192.168.1.44.")
+        complete_challenge(1)
+        advance_scene(10)
+        add_message(EMAIL_03)
+        notification = {"title":"CHAPTER TRACE COMPLETE","text":"The first network trace has been reconstructed.","sender":"UNKNOWN","stage":2}
+    return {"complete": s["challenge01_complete"], "notification": notification}
