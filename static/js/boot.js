@@ -7,6 +7,7 @@ let skipIntro = false;
 const keysDown = new Set();
 document.addEventListener("keydown", event => { keysDown.add(event.key.toLowerCase()); if (keysDown.has("z") && keysDown.has("9")) skipIntro = true; });
 document.addEventListener("keyup", event => keysDown.delete(event.key.toLowerCase()));
+document.querySelectorAll(".skip-hint").forEach(button => button.addEventListener("click", () => { skipIntro = true; }));
 const introMessages = ["In 2018, something went wrong.", "A system was built to watch.", "It learned.", "It remembered.", "Then they shut it down.", "Or so they thought.", "Eight years passed.", "The machine stayed silent.", "Until tonight."];
 const bootMessages = [
     { text: "NEXUS NODE 01", className: "boot-title" },
