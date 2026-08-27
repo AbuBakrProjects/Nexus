@@ -3,44 +3,43 @@ let novaText = null;
 let novaMinimized = null;
 let novaHistoryPanel = null;
 let novaHistoryList = null;
-let novaNewHint = null;
 let novaTimeout = null;
 let novaInitialized = false;
-let novaCurrentStage = "";
+let novaInitializing = null;
 
 async function initializeNova() {
     if (novaInitialized && novaBox) return;
+    if (novaInitializing) return novaInitializing;
 
-    try {
-        const response = await fetch("/nova");
+    novaInitializing = (async () => {
+        try {
+            const response = await fetch("/nova");
+            if (!response.ok) throw new Error("NOVA failed to load.");
 
-        if (!response.ok) {
-            throw new Error("NOVA failed to load.");
+            document.body.insertAdjacentHTML("beforeend", await response.text());
+
+            novaBox = document.getElementById("novaMessageBox");
+            novaText = document.getElementById("novaText");
+            novaMinimized = document.getElementById("novaMinimized");
+            novaHistoryPanel = document.getElementById("novaHistoryPanel");
+            novaHistoryList = document.getElementById("novaHistoryList");
+                    novaMinimized?.addEventListener("click", novaRestore);
+            document.getElementById("novaMinimizeButton")?.addEventListener("click", novaMinimize);
+            document.getElementById("novaHistoryButton")?.addEventListener("click", openNovaHistory);
+            document.getElementById("novaHistoryClose")?.addEventListener("click", closeNovaHistory);
+            document.getElementById("novaHintButton")?.addEventListener("click", requestNovaHint);
+
+            novaInitialized = true;
+            await refreshNovaState();
+        } catch (error) {
+            console.error("NOVA failed to initialize:", error);
+        } finally {
+            novaInitializing = null;
         }
+    })();
 
-        document.body.insertAdjacentHTML("beforeend", await response.text());
-
-        novaBox = document.getElementById("novaMessageBox");
-        novaText = document.getElementById("novaText");
-        novaMinimized = document.getElementById("novaMinimized");
-        novaHistoryPanel = document.getElementById("novaHistoryPanel");
-        novaHistoryList = document.getElementById("novaHistoryList");
-        novaNewHint = document.getElementById("novaNewHint");
-
-        document.getElementById("novaMinimizedButton")?.addEventListener("click", novaRestore);
-        novaMinimized?.addEventListener("click", novaRestore);
-        document.getElementById("novaMinimizeButton")?.addEventListener("click", novaMinimize);
-        document.getElementById("novaHistoryButton")?.addEventListener("click", openNovaHistory);
-        document.getElementById("novaHistoryClose")?.addEventListener("click", closeNovaHistory);
-        document.getElementById("novaHintButton")?.addEventListener("click", requestNovaHint);
-
-        novaInitialized = true;
-        await refreshNovaState();
-    } catch (error) {
-        console.error("NOVA failed to initialize:", error);
-    }
+    return novaInitializing;
 }
-
 function novaMinimize(markNew = true) {
     clearTimeout(novaTimeout);
     novaBox?.classList.remove("nova-show");
@@ -79,23 +78,17 @@ async function novaSay(message, duration = 9000, stage = "") {
     if (!novaBox || !novaText) return;
 
     clearTimeout(novaTimeout);
-    novaCurrentStage = stage;
     novaText.textContent = message;
     novaMinimized?.classList.remove("show", "new-hint");
     novaBox.classList.add("nova-show");
     playOpenSound?.();
 
-    try {
-        await fetch("/api/nova/record", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: message, stage })
-        });
-    } catch (error) {
-        console.error("NOVA message state failed:", error);
-    }
+    fetch("/api/nova/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message, stage })
+    }).catch(error => console.error("NOVA message state failed:", error));
 
-    await refreshNovaState();
     novaTimeout = setTimeout(() => novaMinimize(true), duration);
 }
 
@@ -115,13 +108,12 @@ async function refreshNovaState() {
             novaMinimized.classList.toggle("new-hint", Boolean(data.new_hint));
         }
 
-        if (novaHistoryList) {
+        if (novaHistoryList && novaHistoryPanel?.classList.contains("show")) {
             const history = (data.history || []).slice().reverse();
-
             novaHistoryList.innerHTML = history.map(item => `
                 <article class="nova-history-item">
                     <b>NOVA</b>
-                    <time>${item.time || ""}</time>
+                    <time>${escapeNova(item.time || "")}</time>
                     <p>${escapeNova(item.text || "")}</p>
                 </article>
             `).join("") || `<div class="nova-history-item"><p>No previous guidance yet.</p></div>`;
@@ -151,6 +143,7 @@ function closeNovaHistory() {
 async function requestNovaHint() {
     try {
         const response = await fetch("/api/nova/hint", { method: "POST" });
+        if (!response.ok) throw new Error("NOVA hint request failed.");
         const data = await response.json();
         await novaSay(`HINT ${data.level}/3\n\n${data.text}`, 10000, "hint");
     } catch (error) {
