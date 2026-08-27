@@ -2,8 +2,8 @@
     position:fixed;
     right:24px;
     bottom:66px;
-    width:min(360px,calc(100vw - 32px));
-    padding:15px 16px;
+    width:min(360px,calc(100vw - 28px));
+    padding:16px;
     background:rgba(7,12,8,.97);
     border:1px solid #314731;
     border-left:3px solid #7c9ad8;
@@ -14,7 +14,7 @@
     color:#d8ded8;
     opacity:0;
     transform:translateY(12px);
-    transition:opacity .3s ease,transform .3s ease;
+    transition:opacity .25s ease,transform .25s ease;
     pointer-events:none;
 }
 
@@ -54,8 +54,8 @@
 #novaActions {
     display:flex;
     justify-content:flex-end;
-    gap:7px;
-    margin-top:13px;
+    gap:8px;
+    margin-top:12px;
 }
 
 #novaActions button,#novaHistoryButton {
