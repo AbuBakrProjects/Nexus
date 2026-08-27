@@ -16,17 +16,17 @@ def run_challenge01(command, target=""):
         advance_scene(2)
     elif c == "hostname" and s["story_scene"] >= 2:
         advance_scene(3)
-    elif c == "ipconfig":
+    elif c == "ipconfig" and s["story_scene"] >= 3:
         s["ipconfig_found"] = True
         add_evidence("network_identity", "ipconfig", "03:04", "NEXUS is using 192.168.1.24 with gateway 192.168.1.1.")
         advance_scene(4)
     elif c in ("dir", "ls") and s["ipconfig_found"]:
         s["root_dir_found"] = True
         advance_scene(5)
-    elif c in ("cd logs", "cd /logs"):
+    elif c in ("cd logs", "cd /logs") and s["root_dir_found"]:
         s["logs_dir_found"] = True
         advance_scene(6)
-    elif target == "/logs/network.log" and c.startswith(("type ", "cat ")):
+    elif target == "/logs/network.log" and c.startswith(("type ", "cat ")) and s["logs_dir_found"]:
         if not s["network_log_found"]:
             s["network_log_found"] = True
             add_evidence("network_log", "/logs/network.log", "03:17", "192.168.1.44 connected immediately before the network configuration change; NEXUS-WATCH initialized at 03:17:04.")
@@ -45,9 +45,9 @@ def run_challenge01(command, target=""):
         add_evidence("network_scan", "NMAP", "03:17", "192.168.1.44 exposes SSH, HTTP, and HTTPS.")
         if "network_ghost" not in s["achievements"]: s["achievements"].append("network_ghost")
         advance_scene(9)
-    elif c == "netstat" and s["nmap_found"]:
-        s["netstat_found"] = True
-        add_evidence("connection_trace", "netstat", "03:17", "NEXUS 192.168.1.24 has an established connection with 192.168.1.44.")
+    elif c == "tasklist" and s["nmap_found"]:
+        s["tasklist_found"] = True
+        add_evidence("watcher_process", "tasklist", "03:17", "nexus-watch.exe is running with PID 3172.")
         complete_challenge(1)
         advance_scene(10)
         add_message(EMAIL_03)

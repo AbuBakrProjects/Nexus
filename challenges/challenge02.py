@@ -8,9 +8,9 @@ def run_challenge02(command, target=""):
         return {"complete": s["challenge02_complete"], "notification": None}
     c = command.strip().lower()
     notification = None
-    if c == "tasklist":
-        s["tasklist_found"] = True
-        add_evidence("watcher_process", "tasklist", "03:17", "nexus-watch.exe is running with PID 3172.")
+    if c == "netstat" and s["tasklist_found"]:
+        s["netstat_found"] = True
+        add_evidence("connection_trace", "netstat", "03:17", "NEXUS 192.168.1.24 has an established connection with 192.168.1.44.")
         advance_scene(11)
     elif c == "netstat -ano" and s["tasklist_found"]:
         s["watcher_pid_found"] = True

@@ -1,3 +1,8 @@
+document.documentElement.scrollTop = 0;
+document.body.scrollTop = 0;
+window.scrollTo(0, 0);
+document.body.classList.add("nexus-booting");
+
 let skipIntro = false;
 const keysDown = new Set();
 document.addEventListener("keydown", event => { keysDown.add(event.key.toLowerCase()); if (keysDown.has("z") && keysDown.has("9")) skipIntro = true; });
@@ -59,8 +64,9 @@ async function runBootSequence() {
     bootScreen.classList.add("boot-hidden");
     await sleep(700);
     bootScreen.remove();
+    document.body.classList.remove("nexus-booting");
     showNewMessageNotification?.(0);
-    initializeNova?.().then(() => novaProgress?.("start"));
+    initializeNova?.().then(() => novaProgress?.());
 }
 async function startOpening() { await runIntroSequence(); await runBootSequence(); }
 startOpening();

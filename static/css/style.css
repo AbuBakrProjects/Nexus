@@ -301,4 +301,13 @@ button {
     50% { opacity: .45; }
 }
 #introScreen,#bootScreen { position: fixed; }
+
+body.nexus-booting #panel,
+body.nexus-booting #desktop,
+body.nexus-booting #notificationContainer,
+body.nexus-booting #novaMessageBox,
+body.nexus-booting #novaMinimized,
+body.nexus-booting .nova-history-panel {
+    visibility: hidden;
+}
 #bootScreen { white-space: normal; }

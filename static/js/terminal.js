@@ -37,34 +37,9 @@ function initializeTerminal() {
         novaProgress(stage);
     }
 
-    function handleNovaProgress(command, data) {
-        const normalized = command.trim().replace(/\s+/g, " ");
-        if (/^(ls|cd|cat|type): /.test(data.output || "")) return;
-        const stages = {
-            "whoami":"identity",
-            "hostname":"network",
-            "ipconfig":"ipconfig",
-            "nmap 192.168.1.44":"nmap",
-            "netstat":"netstat",
-            "netstat -ano":"netstat",
-            "tasklist":"tasklist",
-            "net user":"net_user",
-            "connect 192.168.1.44":"complete"
-        };
-        if (stages[normalized]) return showNovaStage(stages[normalized]);
-        if ((normalized === "dir" || normalized === "ls") && data.cwd === "/") return showNovaStage("root");
-        if ((normalized === "cd Logs" || normalized === "cd /logs") && data.cwd === "/logs") return showNovaStage("logs");
-        if ((normalized === "type network.log" || normalized === "cat network.log") && data.cwd === "/logs") return showNovaStage("network_log");
-        if ((normalized === "type access.log" || normalized === "cat access.log") && data.cwd === "/logs") return showNovaStage("access_log");
-        if ((normalized === "cd /NEXUS/temp" || normalized === "cd nexus/temp") && data.cwd === "/NEXUS/temp") return showNovaStage("temp");
-        if ((normalized === "type session_0316.tmp" || normalized === "cat session_0316.tmp") && data.cwd === "/NEXUS/temp") return showNovaStage("recovery");
-        if ((normalized === "type service.log" || normalized === "cat service.log") && data.cwd === "/NEXUS/services") return showNovaStage("watcher_log");
-        if ((normalized === "type watch.conf" || normalized === "cat watch.conf") && data.cwd === "/NEXUS/services") return showNovaStage("watcher_config");
-        if ((normalized === "type watcher_original.conf" || normalized === "cat watcher_original.conf") && data.cwd === "/NEXUS/archive") return showNovaStage("original");
-        if ((normalized === "type admin_record.txt" || normalized === "cat admin_record.txt") && data.cwd === "/NEXUS/archive") return showNovaStage("admin_record");
-        if ((normalized === "type sync.conf" || normalized === "cat sync.conf") && data.cwd === "/NEXUS/services") return showNovaStage("sync_config");
-        if ((normalized === "type system.log" || normalized === "cat system.log") && data.cwd === "/logs") return showNovaStage("system_log");
-        if (normalized.startsWith("wmic process where")) return showNovaStage("wmic");
+    function handleNovaProgress(data) {
+        if (!data.story_advanced) return;
+        if (typeof novaProgress === "function") novaProgress();
     }
 
     async function runCommand(command) {
@@ -93,7 +68,7 @@ function initializeTerminal() {
             } else if (command.trim()) {
                 experimentErrors = 0;
             }
-            handleNovaProgress(command, data);
+            handleNovaProgress(data);
             input.focus();
         } catch (error) {
             console.error(error);
@@ -114,7 +89,7 @@ function initializeTerminal() {
     body.addEventListener("click", () => input.focus());
     updatePrompt();
     input.focus();
-    setTimeout(() => showNovaStage("terminal"), 500);
+    setTimeout(() => novaProgress?.(), 500);
 }
 
 window.initializeTerminal = initializeTerminal;
