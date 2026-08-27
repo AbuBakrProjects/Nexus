@@ -12,6 +12,9 @@ function initializeTerminal() {
     let currentDirectory = "/home/nexus";
     const novaStagesShown = new Set();
     let experimentErrors = 0;
+    const commandHistory = [];
+    let historyIndex = -1;
+    const commands = ["help", "clear", "pwd", "ls", "cd", "cat", "nmap", "whoami", "hostname", "echo", "date", "ps", "tasklist", "netstat"];
 
     function displayPath() { return currentDirectory === "/home/nexus" ? "~" : currentDirectory; }
     function updatePrompt() { prompt.textContent = `nexus@node:${displayPath()}$`; }
@@ -79,12 +82,43 @@ function initializeTerminal() {
     }
 
     input.addEventListener("keydown", event => {
-        if (event.key !== "Enter") return;
-        event.preventDefault();
-        const command = input.value.trim();
-        if (!command) return;
-        input.value = "";
-        runCommand(command);
+        if (event.key === "Enter") {
+            event.preventDefault();
+            const command = input.value.trim();
+            if (!command) return;
+            commandHistory.push(command);
+            historyIndex = commandHistory.length;
+            input.value = "";
+            runCommand(command);
+            return;
+        }
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if (!commandHistory.length) return;
+            historyIndex = Math.max(0, historyIndex - 1);
+            input.value = commandHistory[historyIndex];
+            input.setSelectionRange(input.value.length, input.value.length);
+            return;
+        }
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            if (!commandHistory.length) return;
+            historyIndex = Math.min(commandHistory.length, historyIndex + 1);
+            input.value = historyIndex === commandHistory.length ? "" : commandHistory[historyIndex];
+            input.setSelectionRange(input.value.length, input.value.length);
+            return;
+        }
+        if (event.key === "Tab") {
+            event.preventDefault();
+            const value = input.value;
+            const parts = value.split(/\s+/);
+            if (parts.length !== 1) return;
+            const matches = commands.filter(command => command.startsWith(value));
+            if (matches.length === 1) input.value = matches[0] + " ";
+            else if (matches.length > 1) {
+                addCommand(value, matches.join("  "));
+            }
+        }
     });
     body.addEventListener("click", () => input.focus());
     updatePrompt();
