@@ -286,8 +286,8 @@ button {
 
 .skip-hint {
     position: absolute;
-    top: 24px;
-    right: 28px;
+    top: 20px;
+    right: 22px;
     padding: 10px 14px;
     color: #c9d2c9;
     font-family: "Press Start 2P", monospace;
@@ -322,3 +322,15 @@ body.nexus-booting .nova-history-panel {
     visibility: hidden;
 }
 #bootScreen { white-space: normal; }
+
+#introScreen .skip-hint {
+    top:auto;
+    right:auto;
+    bottom:24px;
+    left:24px;
+}
+
+#bootScreen .skip-hint {
+    top:20px;
+    right:22px;
+}
