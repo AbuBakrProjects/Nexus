@@ -25,9 +25,7 @@ input {
 button {
     cursor: pointer;
 }
-/* =========================================================
-   CINEMATIC INTRO
-   ========================================================= */
+
 
 #introScreen {
     position: fixed;
@@ -290,15 +288,28 @@ button {
     position: absolute;
     top: 24px;
     right: 28px;
-    color: #777;
+    padding: 10px 14px;
+    color: #c9d2c9;
     font-family: "Press Start 2P", monospace;
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    background: rgba(20, 25, 20, .88);
+    border: 1px solid #4d5b4d;
+    box-shadow: 4px 4px 0 #000;
+    cursor: pointer;
+    user-select: none;
     animation: skipPulse 1.8s ease-in-out infinite;
+    transition: border-color .2s ease, color .2s ease, transform .2s ease;
 }
+.skip-hint:hover {
+    color: #fff;
+    border-color: #8cff8c;
+    transform: translate(-1px, -1px);
+}
+
 @keyframes skipPulse {
-    50% { opacity: .45; }
+    50% { opacity: .65; }
 }
 #introScreen,#bootScreen { position: fixed; }
 
