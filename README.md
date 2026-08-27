@@ -1,239 +1,473 @@
-# NEXUS
+# NEXUS OS
 
-🌐 Try NEXUS
+> **A browser-based cybersecurity investigation game where the terminal is the interface, the evidence is the puzzle, and NOVA is your mentor.**
+
+NEXUS is built around a simple idea: **don't teach cybersecurity by showing the answer, make the player investigate it.**
+
+You boot into a operating system, inspect files, trace network activity, investigate processes, and gradually reconstruct what happened to the NEXUS NODE 1.
+
+---
+
+## 🌐 Try NEXUS
 
 You can also try the current live version without installing anything locally.
 
-<p align="center"> <a href="https://nexus-os-demo.vercel.app/"> <strong>▶ Try NEXUS Online</strong> </a> </p>
+**▶ [Try NEXUS Demo](http://nexus-os-demo.vercel.app)**
 
 Note: The online version is currently a work in progress and may change as new features and story content are added.
 
-> ### A cybersecurity learning game disguised as an OS.
-
-<p align="center">
-  <img src="docs/images/nexus-desktop.png" alt="Nexus OS" width="900">
-</p>
-
-<p align="center">
-  <strong>Explore. Investigate. Learn.</strong>
-</p>
-
-<p align="center">
-  A browser-based cybersecurity learning experience built around exploration, investigation, and hands-on challenges.
-</p>
 
 ---
 
-## 🎮 What is Nexus?
+## Screenshots
 
-Nexus is a gamified cybersecurity learning platform. Players navigate around a simulated computer, investigate suspicious activity, use a terminal, solve security challenges, and learn real cybersecurity principles via gameplay.
+| Boot sequence | NEXUS desktop |
+|---|---|
+| `docs/screenshots/01-boot.png` | `docs/screenshots/02-desktop.png` |
 
-Nexus throws you into the system and lets you figure it out on your own, rather than watching a tutorial and being told what to do.
+| NOVA mentor | Terminal investigation |
+|---|---|
+| `docs/screenshots/03-nova.png` | `docs/screenshots/04-terminal.png` |
 
----
+| Evidence board | Investigation trail |
+|---|---|
+| `docs/screenshots/05-evidence.png` | `docs/screenshots/06-trail.png` |
 
-## 🖥️ The Story
-
-You wake up inside **NODE 01**. This is where you are now. You do not know how you got here.
-
-The machine was shut down.. Now it is working again.
-
-Something brought Nexus online. You do not know what it was.
-
-Nexus does not tell you what happened. You have to find out what is going on.
-
-You need to look around Nexus. Explore the filesystem. Inspect the logs.
-
-Investigate what is happening on the network. Read the messages.
-
-Follow the clues left behind by the people who were using Nexus before you.
-
-You have to be careful. Not everything, on Nexus is what it seems to be.
+| Logs / filesystem | Chapter completion |
+|---|---|
+| `docs/screenshots/07-logs.png` | `docs/screenshots/08-chapter-complete.png` |
 
 ---
 
-# 📸 Showcase
+## The Concept
 
-## Nexus OS
+Something unusual happens inside NEXUS.
 
-<p align="center">
-  <img src="docs/images/nexus-desktop.png" alt="Nexus OS Desktop" width="900">
-</p>
+NOVA does not simply tell the player what happened. Instead, she points them toward the next piece of evidence.
 
-The Nexus desktop acts as the player's main environment.
+The player must:
 
----
+- establish the machine's identity
+- inspect its network configuration
+- find the relevant logs
+- trace a suspicious remote address
+- investigate running processes
+- connect processes to network activity
+- inspect configuration files
+- reconstruct the timeline
+- determine what the NEXUS watcher was doing
+- follow the recovery connection
 
-## Terminal
-
-<p align="center">
-  <img src="docs/images/terminal.png" alt="Nexus Terminal" width="900">
-</p>
-
-A Linux-inspired terminal allows the player to interact with the simulated system and investigate its filesystem.
-
----
-
-## Messages
-
-<p align="center">
-  <img src="docs/images/messages.png" alt="Nexus Messages" width="700">
-</p>
-
-Messages from unknown users gradually reveal more of the story as the player progresses.
+The result is closer to an **interactive investigation** than a traditional tutorial.
 
 ---
 
-## NOVA
+## Chapter 01 — The Watcher
 
-<p align="center">
-  <img src="docs/images/nova-1.png" width="48%">
-  <img src="docs/images/nova-2.png" width="48%">
-</p>
+Chapter 01 begins with a suspicious message and an unexplained network change.
 
-NOVA acts as a friendly guide, helping players understand what they are discovering without simply giving them the answers.
+The investigation develops through evidence rather than exposition:
+
+```text
+Unknown message
+      ↓
+Machine identity
+      ↓
+Network identity
+      ↓
+Logs
+      ↓
+192.168.1.44
+      ↓
+NMAP
+      ↓
+TASKLIST
+      ↓
+Challenge 01 complete
+      ↓
+NETSTAT
+      ↓
+NETSTAT -ANO
+      ↓
+Process investigation
+      ↓
+NEXUS-WATCH
+      ↓
+Configuration + timeline
+      ↓
+NEXUS-SYNC
+      ↓
+Recovery connection
+      ↓
+Chapter 02 complete
+```
+
+### Challenge structure
+
+**Challenge 01** establishes the first network trace and ends with the process discovery.
+
+The important transition is:
+
+```text
+nmap 192.168.1.44
+        ↓
+tasklist
+        ↓
+Challenge 01 COMPLETE
+```
+
+**Challenge 02** begins with the network connection verification:
+
+```text
+netstat
+   ↓
+netstat -ano
+   ↓
+process / watcher investigation
+```
+
+This separation keeps the chapter readable and prevents later evidence from appearing before the player has earned it.
 
 ---
 
-# 🕵️ Challenge 01
+## NOVA — The Mentor
 
-The first challenge begins with a simple question:
+NOVA is designed as an investigative mentor, not a command dispenser.
 
-> ## **Who is 192.168.1.44?**
+Normal story messages tell the player **what to investigate next**.
 
-The player isn't immediately given the answer.
+For example:
 
-Instead, they investigate.
+> **NEXT: Look for the Logs folder.**
 
-### Investigation Flow
+rather than:
 
-## ⚙️ Setup & Running Locally
+> `NEXT: cd Logs`
 
-### Requirements
+When the player needs help, the Hint system can become progressively more specific:
 
-* Python 3.10+
-* Git
-* A modern web browser
+```text
+LEVEL 1
+Think about where system records are normally kept.
 
-### Installation
+        ↓
 
-Clone the repository:
+LEVEL 2
+Look for the Logs folder.
+
+        ↓
+
+LEVEL 3
+Use: cd Logs
+```
+
+For file investigation, commands use the terminal's canonical syntax such as:
+
+```text
+cat network.log
+cat access.log
+cat system.log
+cat watch.conf
+```
+
+This keeps the main story immersive while still making the game accessible to players who get stuck.
+
+---
+
+## Anti-Skip Story System
+
+NEXUS does not treat the last command typed by the player as proof of progress.
+
+Story progression is tied to **server-side evidence/state**.
+
+For example, typing:
+
+```text
+nmap 192.168.1.44
+```
+
+early does not automatically unlock the later investigation.
+
+The relevant evidence must actually be discovered before the story advances.
+
+This gives the investigation a real sequence:
+
+```text
+Evidence discovered
+        ↓
+Server state updated
+        ↓
+Challenge progression
+        ↓
+NOVA recalculates the current objective
+```
+
+It also makes browser reloads safer because NOVA can reconstruct the current investigation from the stored state rather than blindly restarting or jumping forward.
+
+---
+
+## Core Features
+
+### Terminal
+
+A simulated command-line environment for the investigation.
+
+Current investigation commands include:
+
+```text
+whoami
+hostname
+ipconfig
+dir
+ls
+cd
+cat
+nmap
+netstat
+netstat -ano
+tasklist
+wmic
+net user
+connect
+clear
+```
+
+### NOVA Mentor
+
+- contextual story messages
+- progressive hints
+- explicit investigation objectives
+- mentor history
+- state-aware progression
+- no unnecessary command dumping during the main story
+
+### Virtual Filesystem
+
+The player investigates simulated NEXUS directories and files rather than the real machine.
+
+Important areas include:
+
+```text
+/Logs
+/NEXUS/services
+/NEXUS/temp
+/NEXUS/archive
+```
+
+### Evidence System
+
+Discoveries are turned into evidence that can be reviewed later.
+
+Examples include:
+
+- network traces
+- suspicious IP addresses
+- process information
+- watcher configuration
+- authentication events
+- recovery records
+- administrative records
+
+### Investigation Trail
+
+The player can see the case develop as discoveries are made instead of having every answer revealed from the start.
+
+### Desktop UI
+
+NEXUS is presented as a complete simulated operating system rather than a plain terminal page.
+
+The UI includes areas for:
+
+- desktop/workspace
+- terminal
+- NOVA
+- messages/notifications
+- evidence
+- investigation progress
+- chapter completion
+
+---
+
+## Project Structure
+
+```text
+Nexus-main/
+├── app.py
+├── requirements.txt
+├── package.json
+├── README.md
+│
+├── challenges/
+│   ├── challenge01.py
+│   ├── challenge02.py
+│   └── challenge03.py
+│
+├── system/
+│   ├── commands.py
+│   ├── filesystem.py
+│   └── state.py
+│
+├── templates/
+│   ├── index.html
+│   ├── desktop.html
+│   ├── panel.html
+│   └── nova.html
+│
+├── static/
+│   ├── css/
+│   ├── js/
+│   ├── assets/
+│   └── audio/
+│
+└── docs/
+    ├── story/
+    └── screenshots/
+```
+
+---
+
+## How It Works
+
+NEXUS uses Flask for the application layer and JavaScript for the browser-side operating-system interface.
+
+At a high level:
+
+```text
+Browser UI
+    ↓
+JavaScript terminal / NOVA / desktop
+    ↓
+Flask API
+    ↓
+Command engine + game state
+    ↓
+Challenge logic
+    ↓
+Evidence + story progression
+    ↓
+Updated UI
+```
+
+The important architectural rule is that **the backend remains authoritative for story progression**.
+
+---
+
+## Running Locally
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/AbuBakrProjects/Nexus.git
 cd Nexus
 ```
 
-Create and activate a virtual environment:
+### 2. Create a virtual environment
 
-**Windows:**
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-**Linux/macOS:**
+Windows:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python -m venv .venv
+.venv\Scripts\activate
 ```
 
-Install the dependencies:
+Linux/macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run NEXUS
-
-Start the Flask server:
+### 4. Start NEXUS
 
 ```bash
 python app.py
 ```
 
-Then open:
+Then open the local address printed by Flask in your browser.
 
-```text
-http://127.0.0.1:5000
-```
+---
 
-NEXUS should now be running locally in your browser.
+## Gameplay Philosophy
 
-### Project Structure
+NEXUS follows a few rules when designing investigations:
 
-```text
-Nexus/
-├── app.py
-├── requirements.txt
-├── vercel.json
-├── challenges/
-├── system/
-├── templates/
-├── static/
-└── docs/
-```
+### Don't reveal the answer too early
 
-`app.py` contains the Flask backend, while `templates/` and `static/` contain the frontend. The `challenges/` and `system/` directories contain the game's challenge and simulated OS components.
+The player should understand **why** they are running a command.
 
-```text
-                         ┌───────────────┐
-                         │     BOOT      │
-                         └───────┬───────┘
-                                 │
-                                 ▼
-                     ┌─────────────────────┐
-                     │    NEXUS DESKTOP    │
-                     └──────────┬──────────┘
-                                │
-                                ▼
-                     ┌─────────────────────┐
-                     │   UNKNOWN MESSAGE   │
-                     └──────────┬──────────┘
-                                │
-                                ▼
-                     ┌─────────────────────┐
-                     │   OPEN TERMINAL     │
-                     └──────────┬──────────┘
-                                │
-                                ▼
-                     ┌─────────────────────┐
-                     │ EXPLORE FILESYSTEM  │
-                     └──────────┬──────────┘
-                                │
-                                ▼
-                               ls
-                                │
-                                ▼
-                              cd /
-                                │
-                                ▼
-                               ls
-                                │
-                                ▼
-                              logs
-                                │
-                                ▼
-                           access.log
-                                │
-                                ▼
-                        192.168.1.44
-                                │
-                                ▼
-                         INVESTIGATE
-                                │
-                                ▼
-                       /etc/network.conf
-                                │
-                                ▼
-                        192.168.1.24
-                                │
-                                ▼
-                     COMPARE THE EVIDENCE
-                                │
-                                ▼
-                     ┌─────────────────────┐
-                     │ CHALLENGE COMPLETE  │
-                     └─────────────────────┘
+### Make every command produce evidence
+
+Commands should contribute to the investigation rather than exist only as decoration.
+
+### Let the player get stuck safely
+
+Hints should help without immediately destroying the puzzle.
+
+### Keep the story state authoritative
+
+A player typing a command out of order should not be able to break the narrative.
+
+### Make the interface part of the story
+
+The terminal, notifications, files, logs, and NOVA should all feel like parts of the same operating system.
+
+---
+
+## Roadmap
+
+### Chapter 01
+
+- [x] Machine identity investigation
+- [x] Network trace
+- [x] NMAP investigation
+- [x] Process investigation
+- [x] Watcher investigation
+- [x] Recovery trace
+- [x] Chapter completion sequence
+
+### Future
+
+- [ ] Chapter 02
+- [ ] Additional investigation environments
+- [ ] More realistic log timelines
+- [ ] More evidence interactions
+- [ ] Additional terminal commands
+- [ ] Expanded NOVA hint system
+- [ ] More desktop applications
+- [ ] Persistent player progress
+- [ ] Additional endings / investigation outcomes
+
+---
+
+## Design Direction
+
+The long-term goal is for NEXUS to feel like a **small operating system that happens to contain a cybersecurity investigation**.
+
+That means the UI should remain coherent across every feature:
+
+- consistent typography
+- restrained retro/technical styling
+- readable terminal output
+- strong hierarchy
+- subtle system feedback
+- useful animations rather than decorative animation everywhere
+- clear evidence states
+- NOVA that feels present without becoming intrusive
+
+The visual language should support the investigation instead of competing with it.
+
+---
+
+## Credits
+
+**Created by Abu Bakr**
+
+NEXUS is an independent cybersecurity-learning game/project focused on exploration, investigation, and practical reasoning.
+
+---
