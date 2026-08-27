@@ -37,6 +37,10 @@ Note: The online version is currently a work in progress and may change as new f
 |---|---|
 | `docs/screenshots/07-logs.png` | `docs/screenshots/08-chapter-complete.png` |
 
+| Memory Game | Tic Tac Toe Game |
+|---|---|
+| `docs/screenshots/09-Memory.png` | `docs/screenshots/10-tic-tac-toe.png` |
+
 ---
 
 ## The Concept
