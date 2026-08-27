@@ -44,7 +44,6 @@ def visible_filesystem():
         fs['/home/nexus']['children'] = [x for x in fs['/home/nexus']['children'] if x != 'network_trace.txt']
     if not s['watcher_process_found']:
         fs['/home/nexus']['children'] = [x for x in fs['/home/nexus']['children'] if x != 'watcher_note.txt'] if '/home/nexus' in fs else fs['/home/nexus']['children']
-    # Story files become visible only after the relevant clue is discovered.
     dynamic = {
         '/NEXUS/services': ['nexus-watch.exe', 'watch.conf', 'service.log'] if s['watcher_process_found'] or s['tasklist_found'] else [],
         '/NEXUS/temp': ['session_0316.tmp', 'network_cache.tmp', 'watch_init.tmp'] if s['missing_seconds_found'] else [],

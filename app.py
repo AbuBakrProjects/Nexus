@@ -105,8 +105,6 @@ def mark_nova_read():
 @app.route("/api/nova/hint", methods=["POST"])
 def nova_hint():
     scene = game_state["story_scene"]
-    # NOVA reveals hints in three layers: idea -> exact target -> command.
-    # The normal mentor messages deliberately do not expose terminal syntax.
     hint_sets = {
         1: ("Start with the machine's basic identity.", "Use the terminal to learn which user is operating NEXUS.", "cat? No — use whoami."),
         2: ("The hostname tells you what the machine calls itself.", "Find the terminal command that reports the machine name.", "Use: hostname"),
